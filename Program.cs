@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using MyFood.Repositories;
+using MyFood.Data;
+using MyFood.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,10 +11,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
-
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<DbSession>();
+
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddTransient<IFoodRepository, FoodRepository>();
+
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
