@@ -65,6 +65,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware(typeof(GlobalExceptionHandlerMiddleware));
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
