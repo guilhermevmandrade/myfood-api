@@ -4,10 +4,11 @@ namespace MyFood.Data.Repositories.Interfaces
 {
     public interface IUserRepository
     {
-        Task<int> CreateAsync(User food);
+        Task<int> CreateAsync(User user);
         Task<IEnumerable<User>> GetAllAsync();
         Task<User?> GetByIdAsync(int id);
-        Task<bool> UpdateAsync(User food);
+        Task<User?> GetByEmailAsync(string email);
+        Task<bool> UpdateAsync(User user);
         Task<bool> DeleteAsync(int id);
     }
 }

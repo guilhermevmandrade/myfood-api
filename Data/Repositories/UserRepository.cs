@@ -15,8 +15,8 @@ namespace MyFood.Data.Repositories
 
         public async Task<int> CreateAsync(User user)
         {
-            string query = @"INSERT INTO users (name, email, passwordHash, createdAt) 
-                             VALUES (@Name, @Email, @PasswordHash, @CreatedA) 
+            string query = @"INSERT INTO users (name, email, password_hash, created_at) 
+                             VALUES (@Name, @Email, @PasswordHash, @CreatedAt) 
                              RETURNING id";
             return await _dbSession.Connection.ExecuteScalarAsync<int>(query, user, _dbSession.Transaction);
         }
@@ -39,7 +39,7 @@ namespace MyFood.Data.Repositories
             string query = @"UPDATE users SET 
                                  name = @Name, 
                                  email = @Email, 
-                                 passwordHash = @PasswordHash
+                                 password_hash = @PasswordHash
                              WHERE id = @Id";
             var rowsAffected = await _dbSession.Connection.ExecuteAsync(query, food, _dbSession.Transaction);
             return rowsAffected > 0;
@@ -50,6 +50,17 @@ namespace MyFood.Data.Repositories
             string query = "DELETE FROM users WHERE id = @Id";
             var rowsAffected = await _dbSession.Connection.ExecuteAsync(query, new { Id = id }, _dbSession.Transaction);
             return rowsAffected > 0;
+        }
+
+        /// <summary>
+        /// Obtém o usuário a partir do email.
+        /// </summary>
+        /// <param name="email">Email do usuário.</param>
+        /// <returns></returns>
+        public async Task<User?> GetByEmailAsync(string email)
+        {
+            string query = "SELECT * FROM users WHERE email = @Email";
+            return await _dbSession.Connection.QueryFirstOrDefaultAsync<User>(query, new { Email = email });
         }
     }
 }
