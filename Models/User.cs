@@ -7,6 +7,6 @@
         public required string Email { get; set; }
         public required string PasswordHash { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public List<Meal> Meals { get; set; } = new();
+        public List<Meal> Meals { get; set; } = [];
     }
 }

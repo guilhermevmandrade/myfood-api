@@ -2,7 +2,7 @@
 
 namespace MyFood.Models
 {
-    public class MealItem
+    public class MealFood
     {
         public int Id { get; set; }
         public int MealId { get; set; }

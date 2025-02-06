@@ -1,6 +1,4 @@
-﻿using static Dapper.SqlMapper;
-using System.Data;
-using Microsoft.Data.SqlClient;
+﻿using System.Data;
 using Npgsql;
 
 namespace MyFood.Data

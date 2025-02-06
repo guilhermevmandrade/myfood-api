@@ -1,6 +1,6 @@
 ﻿using MyFood.Models;
 
-namespace MyFood.Data.Repositories
+namespace MyFood.Data.Repositories.Interfaces
 {
     public interface IFoodRepository
     {

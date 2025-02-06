@@ -7,6 +7,6 @@
         public required User User { get; set; }
         public required string Description { get; set; }
         public DateTime MealTime { get; set; }
-        public List<MealItem> MealItems { get; set; } = new();
+        public List<MealFood> MealFood { get; set; } = [];
     }
 }

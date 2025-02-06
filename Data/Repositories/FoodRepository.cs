@@ -1,10 +1,6 @@
 ﻿using Dapper;
-using Microsoft.Extensions.Configuration;
-using Npgsql;
 using MyFood.Models;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+using MyFood.Data.Repositories.Interfaces;
 
 namespace MyFood.Data.Repositories
 {

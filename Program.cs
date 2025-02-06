@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyFood.Data;
 using MyFood.Data.Repositories;
+using MyFood.Data.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,8 @@ builder.Services.AddScoped<DbSession>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddTransient<IFoodRepository, FoodRepository>();
+builder.Services.AddTransient<IMealRepository, MealRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
