@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using MyFood.DTOs.Requests;
 using MyFood.Services.Interfaces;
 
@@ -9,15 +10,26 @@ namespace MyFood.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IValidator<RegisterRequest> _registerValidator;
+        private readonly IValidator<LoginRequest> _loginValidator;
 
-        public AuthController(IUserService userService)
+        public AuthController(IUserService userService, IValidator<RegisterRequest> validator, IValidator<LoginRequest> loginValidator)
         {
             _userService = userService;
+            _registerValidator = validator;
+            _loginValidator = loginValidator;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
+            var validationResult = _registerValidator.Validate(request);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+            }
+
             await _userService.RegisterAsync(request.Name, request.Email, request.Password);
 
             return Created();
@@ -26,6 +38,13 @@ namespace MyFood.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequest request)
         {
+            var validationResult = _loginValidator.Validate(request);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+            }
+
             var authResponse = await _userService.AuthenticateAsync(request.Email, request.Password);
 
             return Ok(authResponse);

@@ -1,8 +1,10 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MyFood.Data;
 using MyFood.Data.Repositories;
 using MyFood.Data.Repositories.Interfaces;
+using MyFood.DTOs.Validators;
 using MyFood.Middlewares;
 using MyFood.Security;
 using MyFood.Services;
@@ -15,6 +17,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Registra todos os validadores automaticamente
+builder.Services.AddValidatorsFromAssemblyContaining<RegisterRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<LoginRequestValidator>();
 
 
 // Adicionando configuração da conexão com o banco de dados
