@@ -4,7 +4,7 @@ namespace MyFood.Data.Repositories.Interfaces
 {
     public interface IUserRepository
     {
-        Task<int> CreateAsync(User user);
+        Task CreateAsync(User user);
         Task<IEnumerable<User>> GetAllAsync();
         Task<User?> GetByIdAsync(int id);
         Task<User?> GetByEmailAsync(string email);

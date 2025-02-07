@@ -67,7 +67,7 @@ namespace MyFood.Services
         /// <returns>
         /// Um objeto <see cref="User"/> representando o usuário criado.
         /// </returns>
-        public async Task<int> RegisterAsync(string name, string email, string password)
+        public async Task RegisterAsync(string name, string email, string password)
         {
             if (await _userRepository.GetByEmailAsync(email) != null)
             {
@@ -76,7 +76,7 @@ namespace MyFood.Services
 
             var user = new User(name, email, HashPassword(password));
 
-            return await _userRepository.CreateAsync(user);
+            await _userRepository.CreateAsync(user);
         }
 
         /// <summary>

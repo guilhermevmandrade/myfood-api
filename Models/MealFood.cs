@@ -11,11 +11,9 @@ namespace MyFood.Models
 
         [Column("meal_id")]
         public int MealId { get; set; }
-        public required Meal Meal { get; set; }
 
         [Column("food_id")]
         public int FoodId { get; set; }
-        public required Food Food { get; set; }
 
         [Column("quantity")]
         public decimal Quantity { get; set; }

@@ -10,14 +10,11 @@ namespace MyFood.Models
 
         [Column("user_id")]
         public int UserId { get; set; }
-        public required User User { get; set; }
 
         [Column("description")]
         public required string Description { get; set; }
 
         [Column("meal_time")]
         public DateTime MealTime { get; set; }
-
-        public List<MealFood> MealFood { get; set; } = [];
     }
 }

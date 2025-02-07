@@ -150,47 +150,31 @@ namespace MyFood.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("users");
+                    b.ToTable("user");
                 });
 
             modelBuilder.Entity("MyFood.Models.Meal", b =>
                 {
-                    b.HasOne("MyFood.Models.User", "User")
-                        .WithMany("Meals")
+                    b.HasOne("MyFood.Models.User", null)
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MyFood.Models.MealFood", b =>
                 {
-                    b.HasOne("MyFood.Models.Food", "Food")
+                    b.HasOne("MyFood.Models.Food", null)
                         .WithMany()
                         .HasForeignKey("FoodId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("MyFood.Models.Meal", "Meal")
-                        .WithMany("MealFood")
+                    b.HasOne("MyFood.Models.Meal", null)
+                        .WithMany()
                         .HasForeignKey("MealId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Food");
-
-                    b.Navigation("Meal");
-                });
-
-            modelBuilder.Entity("MyFood.Models.Meal", b =>
-                {
-                    b.Navigation("MealFood");
-                });
-
-            modelBuilder.Entity("MyFood.Models.User", b =>
-                {
-                    b.Navigation("Meals");
                 });
 #pragma warning restore 612, 618
         }

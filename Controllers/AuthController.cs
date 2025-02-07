@@ -18,9 +18,9 @@ namespace MyFood.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
-            var userId = await _userService.RegisterAsync(request.Name, request.Email, request.Password);
+            await _userService.RegisterAsync(request.Name, request.Email, request.Password);
 
-            return Ok(userId);
+            return Created();
         }
 
         [HttpPost("login")]

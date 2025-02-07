@@ -6,7 +6,7 @@ namespace MyFood.Models
     /// Representa um usuário no sistema, contendo informações essenciais
     /// para autenticação, autorização e rastreamento de suas refeições.
     /// </summary>
-    [Table("users")]
+    [Table("user")]
     public class User
     {
         /// <summary>
@@ -40,11 +40,6 @@ namespace MyFood.Models
         public DateTime CreatedAt { get; set; }
 
         /// <summary>
-        /// Lista de refeições associadas ao usuário.
-        /// </summary>
-        public List<Meal> Meals { get; set; }
-
-        /// <summary>
         /// Contrutor da entidade User
         /// </summary>
         /// <param name="name">Nome do usuário.</param>
@@ -56,7 +51,6 @@ namespace MyFood.Models
             Email = email;
             PasswordHash = passwordHash;
             CreatedAt = DateTime.UtcNow;  
-            Meals = new List<Meal>();
         }
     }
 }

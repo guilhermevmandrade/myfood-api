@@ -16,17 +16,23 @@ namespace MyFood.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Meal>()
-                .HasMany(m => m.MealFood)
-                .WithOne(mi => mi.Meal)
-                .HasForeignKey(mi => mi.MealId)
+            modelBuilder.Entity<MealFood>()
+                .HasOne<Meal>()
+                .WithMany()
+                .HasForeignKey(mf => mf.MealId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<MealFood>()
-                .HasOne(mi => mi.Food)
+                .HasOne<Food>()
                 .WithMany()
-                .HasForeignKey(mi => mi.FoodId)
+                .HasForeignKey(mf => mf.FoodId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Meal>()
+                .HasOne<User>()
+                .WithMany()
+                .HasForeignKey(m => m.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
