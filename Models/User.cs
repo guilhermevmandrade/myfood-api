@@ -62,17 +62,21 @@ namespace MyFood.Models
         /// <summary>
         /// Contrutor da entidade User para registrar novo usuário.
         /// </summary>
-        /// <param name="request">Dados cadastrais do usuário.</param>
+        /// <param name="name">Nome do usuário.</param>
+        /// <param name="email">Endereço de email do usuário.</param>
+        /// <param name="height">Altura do usuário.</param>
+        /// <param name="weight">Peso do usuário.</param>
+        /// <param name="activityLevel">Nível de Atividade do usuário.</param>
         /// <param name="passwordHash">Hash da senha do usuário.</param>
-        public User(RegisterRequest request, string passwordHash)
+        public User(string name, string email, int height, int weight, ActivityLevel activityLevel, string passwordHash)
         {
-            Name = request.Name;
-            Email = request.Email;
+            Name = name;
+            Email = email;
             PasswordHash = passwordHash;
             CreatedAt = DateTime.UtcNow;
-            Height = request.Height;
-            Weight = request.Weight;
-            ActivityLevel = request.ActivityLevel;
+            Height = height;
+            Weight = weight;
+            ActivityLevel = activityLevel;
         }
 
         /// <summary>

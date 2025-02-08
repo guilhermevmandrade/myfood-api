@@ -11,31 +11,26 @@ namespace MyFood.DTOs.Responses
         /// <summary>
         /// Nome do usuário.
         /// </summary>
-        [Column("name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Endereço de email do usuário.
         /// </summary>
-        [Column("email")]
         public string Email { get; set; }
 
         /// <summary>
         /// Altura do usuário para cálculos de Taxa Metabólica Basal.
         /// </summary>
-        [Column("height")]
         public double Height { get; set; }
 
         /// <summary>
         /// Peso do usuário para cálculos de Taxa Metabólica Basal.
         /// </summary>
-        [Column("weight")]
         public double Weight { get; set; }
 
         /// <summary>
         /// Nível de Atividade para ajustar o gasto calórico diário com base no estilo de vida.
         /// </summary>
-        [Column("activity_level")]
         public ActivityLevel ActivityLevel { get; set; }
 
         /// <summary>

@@ -1,8 +1,5 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using Azure.Core;
-using MyFood.Data.Repositories;
 using MyFood.Data.Repositories.Interfaces;
 using MyFood.DTOs.Requests;
 using MyFood.DTOs.Responses;
@@ -42,7 +39,7 @@ namespace MyFood.Services
                 throw new Exception("Email já cadastrado.");
             }
 
-            var user = new User(request, HashPassword(request.Password));
+            var user = new User(request.Name, request.Email, request.Height, request.Weight, request.ActivityLevel, HashPassword(request.Password));
 
             await _userRepository.CreateAsync(user);
         }
@@ -63,6 +60,7 @@ namespace MyFood.Services
             {
                 throw new Exception("Usuário não encontrado.");
             }
+
             if (!VerifyPassword(password, user.PasswordHash))
             {
                 throw new Exception("Senha incorreta.");
@@ -83,7 +81,6 @@ namespace MyFood.Services
         public async Task<GetUserResponse> GetUserAsync(int id)
         {
             var user = await _userRepository.GetByIdAsync(id);
-
             if (user == null)
             {
                 throw new Exception("Usuário não encontrado.");
@@ -95,7 +92,7 @@ namespace MyFood.Services
         /// <summary>
         /// Atualiza os dados do usuário.
         /// </summary>
-        /// <param name="request">Dados so usuário a serem atualizados.</param>
+        /// <param name="request">Novos dados do usuário a ser atualizado.</param>
         /// <param name="id">Identificador do usuário.</param>
         /// <returns></returns>
         public async Task UpdateUserAsync(UpdateUserRequest request, int id)
@@ -124,6 +121,7 @@ namespace MyFood.Services
             {
                 throw new Exception("Usuário não encontrado.");
             }
+
             if (!VerifyPassword(password, user.PasswordHash))
             {
                 throw new Exception("Senha incorreta.");

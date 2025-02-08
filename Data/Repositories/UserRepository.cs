@@ -16,7 +16,7 @@ namespace MyFood.Data.Repositories
         /// <summary>
         /// Construtor que recebe as dependências necessárias para gerenciar a conexão com o banco de dados.
         /// </summary>
-        /// <param name="dbSession"></param>
+        /// <param name="dbSession">Sessão do banco de dados utilizada para execução de consultas e comandos.</param>
         public UserRepository(DbSession dbSession)
         {
             _dbSession = dbSession;
@@ -25,15 +25,14 @@ namespace MyFood.Data.Repositories
         /// <summary>
         /// Registra um novo usuário na tabela <c>user</c>
         /// </summary>
-        /// <param name="user">Informações do usuário a serem registradas.</param>
+        /// <param name="user">Dados do usuário para cadastro.</param>
+        /// <returns></returns>
         public async Task CreateAsync(User user)
         {
-            string query = @"INSERT INTO ""user"" (
-                                name, email, password_hash, created_at, height, weight, activity_level
-                            ) 
-                             VALUES (
-                                @Name, @Email, @PasswordHash, @CreatedAt, @Height, @Weight, @ActivityLevel
-                            )";
+            string query = @"INSERT INTO ""user"" 
+                                (name, email, password_hash, created_at, height, weight, activity_level) 
+                             VALUES 
+                                (@Name, @Email, @PasswordHash, @CreatedAt, @Height, @Weight, @ActivityLevel)";
 
             await _dbSession.Connection.ExecuteAsync(query, user, _dbSession.Transaction);
         }
@@ -42,7 +41,7 @@ namespace MyFood.Data.Repositories
         /// Obtém o usuário a partir do seu identificador.
         /// </summary>
         /// <param name="id">Identificador do usuário.</param>
-        /// <returns>Informações do usuário correspondente.</returns>
+        /// <returns>Dados do usuário correspondente.</returns>
         public async Task<GetUserResponse?> GetByIdAsync(int id)
         {
             string query = @"SELECT 
@@ -60,8 +59,9 @@ namespace MyFood.Data.Repositories
         /// <summary>
         /// Atualiza os dados do usuário.
         /// </summary>
-        /// <param name="user">Dados do usuário a serem atualizados.</param>
-        /// <param name="id">Identificador do usuário a atualizar</param>
+        /// <param name="user">Novos dados do usuário.</param>
+        /// <param name="id">Identificador do usuário.</param>
+        /// <returns></returns>
         public async Task UpdateAsync(UpdateUserRequest user, int id)
         {
             string query = @"UPDATE ""user"" SET 
@@ -78,6 +78,7 @@ namespace MyFood.Data.Repositories
         /// Deleta o usuário a partir do seu identificador.
         /// </summary>
         /// <param name="id">Identificador do usuário.</param>
+        /// <returns></returns>
         public async Task DeleteAsync(int id)
         {
             string query = "DELETE FROM \"user\" WHERE id = @Id";

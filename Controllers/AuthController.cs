@@ -24,7 +24,6 @@ namespace MyFood.Controllers
         public async Task<IActionResult> Register(RegisterRequest request)
         {
             var validationResult = _registerValidator.Validate(request);
-
             if (!validationResult.IsValid)
             {
                 return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
@@ -39,7 +38,6 @@ namespace MyFood.Controllers
         public async Task<IActionResult> Login(LoginRequest request)
         {
             var validationResult = _loginValidator.Validate(request);
-
             if (!validationResult.IsValid)
             {
                 return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
