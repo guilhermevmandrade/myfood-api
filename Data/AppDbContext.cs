@@ -33,6 +33,12 @@ namespace MyFood.Data
                 .WithMany()
                 .HasForeignKey(m => m.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<NutritionalGoal>()
+                .HasOne<User>()
+                .WithOne()
+                .HasForeignKey<NutritionalGoal>(g => g.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

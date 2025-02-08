@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using MyFood.Models.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyFood.Models
 {
@@ -38,6 +39,24 @@ namespace MyFood.Models
         /// </summary>
         [Column("created_at")]
         public DateTime CreatedAt { get; set; }
+
+        /// <summary>
+        /// Altura do usuário para cálculos de Taxa Metabólica Basal.
+        /// </summary>
+        [Column("height")]
+        public double Height { get; set; }
+
+        /// <summary>
+        /// Peso do usuário para cálculos de Taxa Metabólica Basal.
+        /// </summary>
+        [Column("weight")]
+        public double Weight { get; set; }
+
+        /// <summary>
+        /// Nível de Atividade para ajustar o gasto calórico diário com base no estilo de vida.
+        /// </summary>
+        [Column("activity_level")]
+        public ActivityLevel ActivityLevel { get; set; }
 
         /// <summary>
         /// Contrutor da entidade User
