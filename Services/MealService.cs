@@ -86,8 +86,8 @@ namespace MyFood.Services
             {
                 _unitOfWork.BeginTransaction();
 
-                var meal = await _mealRepository.GetUserMealByIdAsync(mealId, userId);
-                if (meal == null)
+                bool mealExists = await _mealRepository.MealExistsAsync(mealId, userId);
+                if (!mealExists)
                 {
                     throw new Exception("Refeição não encontrada.");
                 }
@@ -116,10 +116,10 @@ namespace MyFood.Services
             {
                 _unitOfWork.BeginTransaction();
 
-                var meal = await _mealRepository.GetUserMealByIdAsync(mealId, userId);
-                if (meal == null)
+                bool mealExists = await _mealRepository.MealExistsAsync(mealId, userId);
+                if (!mealExists)
                 {
-                    throw new Exception("Alimento não encontrado.");
+                    throw new Exception("Refeição não encontrada.");
                 }
 
                 await _mealRepository.DeleteAsync(mealId);

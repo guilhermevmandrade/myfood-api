@@ -103,5 +103,19 @@ namespace MyFood.Data.Repositories
 
             await _dbSession.Connection.ExecuteAsync(query, new { Id = id }, _dbSession.Transaction);
         }
+
+        /// <summary>
+        /// Verifica se existe um usuário com o identificador especificado.
+        /// </summary>
+        /// <param name="id">Identificador do usuário.</param>
+        /// <returns>Valor booleano indicando se o usuário existe (true) ou não (false).</returns>
+        public async Task<bool> UserExistsAsync(int id)
+        {
+            string query = "SELECT 1 FROM \"user\" WHERE id = @Id";
+
+            var result = await _dbSession.Connection.ExecuteScalarAsync<int?>(query, new { Id = id });
+
+            return result.HasValue;
+        }
     }
 }

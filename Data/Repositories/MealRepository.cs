@@ -175,5 +175,24 @@ namespace MyFood.Data.Repositories
             
             var rowsAffected = await _dbSession.Connection.ExecuteAsync(query, new { Id = id }, _dbSession.Transaction);
         }
+
+        /// <summary>
+        /// Verifica se uma refeição com o identificador especificado existe para o usuário.
+        /// </summary>
+        /// <param name="mealId">Identificador da refeição.</param>
+        /// <param name="userId">Identificador do usuário.</param>
+        /// <returns>Valor booleano indicando se a refeição existe para o usuário (true) ou não (false).</returns>
+        public async Task<bool> MealExistsAsync(int mealId, int userId)
+        {
+            string query = @"SELECT 1 FROM meal 
+                            WHERE 
+                                id = @MealId 
+                            AND 
+                                user_id = @UserId";
+
+            var result = await _dbSession.Connection.ExecuteScalarAsync<int?>(query, new { MealId = mealId, UserId = userId });
+
+            return result.HasValue;
+        }
     }
 }

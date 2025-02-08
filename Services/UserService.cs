@@ -117,8 +117,8 @@ namespace MyFood.Services
             {
                 _unitOfWork.BeginTransaction();
 
-                var user = await _userRepository.GetByIdAsync(id);
-                if (user == null)
+                bool userExists = await _userRepository.UserExistsAsync(id);
+                if (!userExists)
                 {
                     throw new Exception("Usuário não encontrado.");
                 }

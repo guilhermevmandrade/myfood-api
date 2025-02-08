@@ -92,8 +92,8 @@ namespace MyFood.Services
             {
                 _unitOfWork.BeginTransaction();
 
-                var food = await _foodRepository.GetUserFoodByIdAsync(foodId, userId);
-                if (food == null)
+                bool foodExists = await _foodRepository.FoodExistsAsync(foodId, userId);
+                if (!foodExists)
                 {
                     throw new Exception("Alimento não encontrado.");
                 }
@@ -121,8 +121,8 @@ namespace MyFood.Services
             {
                 _unitOfWork.BeginTransaction();
 
-                var food = await _foodRepository.GetUserFoodByIdAsync(foodId, userId);
-                if (food == null)
+                bool foodExists = await _foodRepository.FoodExistsAsync(foodId, userId);
+                if (!foodExists)
                 {
                     throw new Exception("Alimento não encontrado.");
                 }

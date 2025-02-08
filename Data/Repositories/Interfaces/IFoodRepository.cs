@@ -11,5 +11,6 @@ namespace MyFood.Data.Repositories.Interfaces
         Task<FoodResponse?> GetUserFoodByIdAsync(int id, int userId);
         Task UpdateAsync(FoodRequest food, int id);
         Task DeleteAsync(int id);
+        Task<bool> FoodExistsAsync(int mealId, int userId);
     }
 }
