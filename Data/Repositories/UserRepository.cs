@@ -57,6 +57,24 @@ namespace MyFood.Data.Repositories
         }
 
         /// <summary>
+        /// Obtém o usuário a partir do email.
+        /// </summary>
+        /// <param name="email">Email do usuário.</param>
+        /// <returns>Usuário correspondente.</returns>
+        public async Task<User?> GetByEmailAsync(string email)
+        {
+            string query = @"SELECT 
+                                id AS Id,
+                                name AS Name,
+                                email AS Email,
+                                password_hash AS PasswordHash
+                            FROM ""user""
+                            WHERE email = @Email";
+
+            return await _dbSession.Connection.QueryFirstOrDefaultAsync<User>(query, new { Email = email });
+        }
+
+        /// <summary>
         /// Atualiza os dados do usuário.
         /// </summary>
         /// <param name="user">Novos dados do usuário.</param>
@@ -84,24 +102,6 @@ namespace MyFood.Data.Repositories
             string query = "DELETE FROM \"user\" WHERE id = @Id";
 
             await _dbSession.Connection.ExecuteAsync(query, new { Id = id }, _dbSession.Transaction);
-        }
-
-        /// <summary>
-        /// Obtém o usuário a partir do email.
-        /// </summary>
-        /// <param name="email">Email do usuário.</param>
-        /// <returns>Usuário correspondente.</returns>
-        public async Task<User?> GetByEmailAsync(string email)
-        {
-            string query = @"SELECT 
-                                id AS Id,
-                                name AS Name,
-                                email AS Email,
-                                password_hash AS PasswordHash
-                            FROM ""user""
-                            WHERE email = @Email";
-
-            return await _dbSession.Connection.QueryFirstOrDefaultAsync<User>(query, new { Email = email });
         }
     }
 }

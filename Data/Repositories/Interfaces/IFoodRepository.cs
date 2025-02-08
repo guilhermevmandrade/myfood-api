@@ -8,7 +8,7 @@ namespace MyFood.Data.Repositories.Interfaces
     {
         Task CreateAsync(Food food);
         Task<IEnumerable<FoodResponse>> GetAllByUserIdAsync(int userId);
-        Task<FoodResponse?> GetUserFoodById(int id, int userId);
+        Task<FoodResponse?> GetUserFoodByIdAsync(int id, int userId);
         Task UpdateAsync(FoodRequest food, int id);
         Task DeleteAsync(int id);
     }

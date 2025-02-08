@@ -41,11 +41,11 @@ namespace MyFood.Data.Repositories
         /// Obtém todos alimentos de um usuário.
         /// </summary>
         /// <param name="userId">Identificador do usuário.</param>
-        /// <returns></returns>
+        /// <returns>Uma coleção contendo os alimentos e suas informações nutricionais.</returns>
         public async Task<IEnumerable<FoodResponse>> GetAllByUserIdAsync(int userId)
         {
             string query = @"SELECT 
-                                id AS Id,
+                                id AS FoodId,
                                 name AS Name,
                                 calories AS Calories,
                                 proteins AS Proteins,
@@ -63,11 +63,11 @@ namespace MyFood.Data.Repositories
         /// </summary>
         /// <param name="id">Identificador do alimento.</param>
         /// <param name="userId">Identificador do usuário.</param>
-        /// <returns></returns>
-        public async Task<FoodResponse?> GetUserFoodById(int id, int userId)
+        /// <returns>O alimento e suas informações nutricionais.</returns>
+        public async Task<FoodResponse?> GetUserFoodByIdAsync(int id, int userId)
         {
             string query = @"SELECT 
-                                id AS Id,
+                                id AS FoodId,
                                 name AS Name,
                                 calories AS Calories,
                                 proteins AS Proteins,
@@ -82,7 +82,7 @@ namespace MyFood.Data.Repositories
         /// <summary>
         /// Atualiza os dados do alimento
         /// </summary>
-        /// <param name="food">Dados do alimento a serem atualizados.</param>
+        /// <param name="food">Dados do alimento a ser atualizado.</param>
         /// <param name="id">Identificador do alimento.</param>
         /// <returns></returns>
         public async Task UpdateAsync(FoodRequest food, int id)

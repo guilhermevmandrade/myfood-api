@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using MyFood.Data;
 using MyFood.Data.Repositories.Interfaces;
 using MyFood.DTOs.Requests;
 using MyFood.DTOs.Responses;
@@ -16,14 +17,16 @@ namespace MyFood.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly JwtService _jwtService;
 
         /// <summary>
         /// Construtor que recebe as dependências necessárias para autenticação e manipulação de usuários.
         /// </summary>
-        public UserService(IUserRepository userRepository, JwtService jwtService)
+        public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork, JwtService jwtService)
         {
             _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
             _jwtService = jwtService;
         }
 
@@ -34,14 +37,27 @@ namespace MyFood.Services
         /// <param name="request">Dados cadastrais do usuário.</param>
         public async Task RegisterAsync(RegisterRequest request)
         {
-            if (await _userRepository.GetByEmailAsync(request.Email) != null)
+            try
             {
-                throw new Exception("Email já cadastrado.");
+                _unitOfWork.BeginTransaction();
+
+                if (await _userRepository.GetByEmailAsync(request.Email) != null)
+                {
+                    throw new Exception("Email já cadastrado.");
+                }
+
+                var user = new User(request.Name, request.Email, request.Height, request.Weight, request.ActivityLevel, HashPassword(request.Password));
+
+                await _userRepository.CreateAsync(user);
+
+                _unitOfWork.Commit();
             }
-
-            var user = new User(request.Name, request.Email, request.Height, request.Weight, request.ActivityLevel, HashPassword(request.Password));
-
-            await _userRepository.CreateAsync(user);
+            catch (Exception) 
+            {
+                _unitOfWork.Rollback();
+                throw;
+            }
+            
         }
 
         /// <summary>
@@ -97,13 +113,25 @@ namespace MyFood.Services
         /// <returns></returns>
         public async Task UpdateUserAsync(UpdateUserRequest request, int id)
         {
-            var user = await _userRepository.GetByIdAsync(id);
-            if (user == null)
+            try
             {
-                throw new Exception("Usuário não encontrado.");
-            }
+                _unitOfWork.BeginTransaction();
 
-            await _userRepository.UpdateAsync(request, id);
+                var user = await _userRepository.GetByIdAsync(id);
+                if (user == null)
+                {
+                    throw new Exception("Usuário não encontrado.");
+                }
+
+                await _userRepository.UpdateAsync(request, id);
+
+                _unitOfWork.Commit();
+            }
+            catch (Exception) 
+            {
+                _unitOfWork.Rollback();
+                throw;
+            }
         }
 
         /// <summary>
@@ -113,21 +141,32 @@ namespace MyFood.Services
         /// <param name="email">Email do usuário para confirmação de exclusão.</param>
         /// <param name="password">Senha do usuário para confirmação de exclusão.</param>
         /// <returns></returns>
-        /// <exception cref="Exception"></exception>
         public async Task DeleteUserAsync(int id, string email, string password)
         {
-            var user = await _userRepository.GetByEmailAsync(email);
-            if (user == null)
+            try
             {
-                throw new Exception("Usuário não encontrado.");
-            }
+                _unitOfWork.BeginTransaction();
 
-            if (!VerifyPassword(password, user.PasswordHash))
+                var user = await _userRepository.GetByEmailAsync(email);
+                if (user == null)
+                {
+                    throw new Exception("Usuário não encontrado.");
+                }
+
+                if (!VerifyPassword(password, user.PasswordHash))
+                {
+                    throw new Exception("Senha incorreta.");
+                }
+
+                await _userRepository.DeleteAsync(id);
+
+                _unitOfWork.Commit();
+            }
+            catch (Exception)
             {
-                throw new Exception("Senha incorreta.");
+                _unitOfWork.Rollback();
+                throw;
             }
-
-            await _userRepository.DeleteAsync(id);
         }
 
         /// <summary>

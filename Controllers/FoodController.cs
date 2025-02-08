@@ -10,8 +10,8 @@ using System.Security.Claims;
 
 namespace MyFood.Controllers
 {
-    [Route("api/food")]
     [ApiController]
+    [Route("api/food")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class FoodController : ControllerBase
     {

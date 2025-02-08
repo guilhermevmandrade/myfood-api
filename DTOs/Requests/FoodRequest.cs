@@ -3,7 +3,7 @@
 namespace MyFood.DTOs.Requests
 {
     /// <summary>
-    /// Representa a requisição para registrar um alimento.
+    /// Representa a requisição para registrar e atualizar um alimento.
     /// </summary>
     public class FoodRequest
     {

@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using MyFood.Data;
 using MyFood.Data.Repositories.Interfaces;
 using MyFood.DTOs.Requests;
 using MyFood.DTOs.Responses;
@@ -13,13 +14,40 @@ namespace MyFood.Services
     public class FoodService : IFoodService
     {
         private readonly IFoodRepository _foodRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         /// <summary>
         /// Construtor que recebe as dependências necessárias para manipulação de alimentos.
         /// </summary>
-        public FoodService(IFoodRepository foodRepository)
+        public FoodService(IFoodRepository foodRepository, IUnitOfWork unitOfWork)
         {
             _foodRepository = foodRepository;
+            _unitOfWork = unitOfWork;
+        }
+
+        /// <summary>
+        /// Registra um novo alimento.
+        /// </summary>
+        /// <param name="request">Dados cadastrais do alimento.</param>
+        /// <param name="userId">Identificador do usuário.</param>
+        /// <returns></returns>
+        public async Task RegisterFoodAsync(FoodRequest request, int userId)
+        {
+            try
+            {
+                _unitOfWork.BeginTransaction();
+
+                var food = new Food(userId, request.Name, request.Calories, request.Proteins, request.Carbs, request.Fats);
+
+                await _foodRepository.CreateAsync(food);
+
+                _unitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                _unitOfWork.Rollback();
+                throw;
+            }
         }
 
         /// <summary>
@@ -40,31 +68,15 @@ namespace MyFood.Services
         /// <param name="foodId">Identificador do alimento.</param>
         /// <param name="userId">Identificador do usuário.</param>
         /// <returns></returns>
-        /// <exception cref="Exception"></exception>
         public async Task<FoodResponse> GetUserFoodAsync(int foodId, int userId)
         {
-            var food = await _foodRepository.GetUserFoodById(foodId, userId);
+            var food = await _foodRepository.GetUserFoodByIdAsync(foodId, userId);
             if (food == null) 
             {
                 throw new Exception("Alimento não encontrado.");
             }
 
-            var foodResponse = new FoodResponse(food.Id, food.Name, food.Calories, food.Proteins, food.Carbs, food.Fats);
-
-            return foodResponse;
-        }
-
-        /// <summary>
-        /// Registra um novo alimento.
-        /// </summary>
-        /// <param name="request">Dados cadastrais do alimento.</param>
-        /// <param name="userId">Identificador do usuário.</param>
-        /// <returns></returns>
-        public async Task RegisterFoodAsync(FoodRequest request, int userId)
-        {
-            var food = new Food(userId, request.Name, request.Calories, request.Proteins, request.Carbs, request.Fats);
-
-            await _foodRepository.CreateAsync(food);
+            return food;
         }
 
         /// <summary>
@@ -74,16 +86,27 @@ namespace MyFood.Services
         /// <param name="foodId">Identificador do alimento.</param>
         /// <param name="userId">Identificador do usuário.</param>
         /// <returns></returns>
-        /// <exception cref="Exception"></exception>
         public async Task UpdateFoodAsync(FoodRequest request, int foodId, int userId)
         {
-            var food = await _foodRepository.GetUserFoodById(foodId, userId);
-            if (food == null)
+            try
             {
-                throw new Exception("Alimento não encontrado.");
-            }
+                _unitOfWork.BeginTransaction();
 
-            await _foodRepository.UpdateAsync(request, foodId);
+                var food = await _foodRepository.GetUserFoodByIdAsync(foodId, userId);
+                if (food == null)
+                {
+                    throw new Exception("Alimento não encontrado.");
+                }
+
+                await _foodRepository.UpdateAsync(request, foodId);
+
+                _unitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                _unitOfWork.Rollback();
+                throw;
+            }
         }
 
         /// <summary>
@@ -92,16 +115,27 @@ namespace MyFood.Services
         /// <param name="foodId">Identificador do alimento.</param>
         /// <param name="userId">Identificador do usuário.</param>
         /// <returns></returns>
-        /// <exception cref="Exception"></exception>
         public async Task DeleteFoodAsync(int foodId, int userId)
         {
-            var food = await _foodRepository.GetUserFoodById(foodId, userId);
-            if (food == null)
+            try
             {
-                throw new Exception("Alimento não encontrado.");
-            }
+                _unitOfWork.BeginTransaction();
 
-            await _foodRepository.DeleteAsync(foodId);
+                var food = await _foodRepository.GetUserFoodByIdAsync(foodId, userId);
+                if (food == null)
+                {
+                    throw new Exception("Alimento não encontrado.");
+                }
+
+                await _foodRepository.DeleteAsync(foodId);
+
+                _unitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                _unitOfWork.Rollback();
+                throw;
+            }
         }
     }
 }
