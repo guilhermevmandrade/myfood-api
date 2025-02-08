@@ -50,7 +50,6 @@ namespace MyFood.Controllers
             }
 
             var validationResult = _updateUserValidator.Validate(request);
-
             if (!validationResult.IsValid)
             {
                 return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));

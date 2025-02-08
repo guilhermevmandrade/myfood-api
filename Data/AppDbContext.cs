@@ -16,6 +16,12 @@ namespace MyFood.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Food>()
+                .HasOne<User>()
+                .WithMany()
+                .HasForeignKey(f => f.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<MealFood>()
                 .HasOne<Meal>()
                 .WithMany()
@@ -37,7 +43,7 @@ namespace MyFood.Data
             modelBuilder.Entity<NutritionalGoal>()
                 .HasOne<User>()
                 .WithOne()
-                .HasForeignKey<NutritionalGoal>(g => g.UserId)
+                .HasForeignKey<NutritionalGoal>(ng => ng.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

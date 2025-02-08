@@ -1,68 +1,52 @@
-﻿using MyFood.DTOs.Requests;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace MyFood.Models
+﻿namespace MyFood.DTOs.Responses
 {
     /// <summary>
-    /// Representa um alimento e suas informações nutricionais.
+    /// Representa a requisição para listar os dados de um alimento.
     /// </summary>
-    [Table("food")]
-    public class Food
+    public class FoodResponse
     {
         /// <summary>
         /// Identificador único do alimento no banco de dados.
         /// </summary>
-        [Column("id")]
-        public int Id { get; set; }
-
-        /// <summary>
-        /// Identificador do usuário proprietário deste alimento.
-        /// </summary>
-        [Column("user_id")]
-        public int UserId { get; set; }
+        public int FoodId { get; set; }
 
         /// <summary>
         /// Nome do alimento.
         /// </summary>
-        [Column("name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Quantidade de calorias por porção do alimento.
         /// </summary>
-        [Column("calories")]
         public decimal Calories { get; set; }
 
         /// <summary>
         /// Quantidade de proteína (em gramas) por porção do alimento.
         /// </summary>
-        [Column("proteins")]
         public decimal Proteins { get; set; }
 
         /// <summary>
         /// Quantidade de carboidratos (em gramas) por porção do alimento.
         /// </summary>
-        [Column("carbs")]
         public decimal Carbs { get; set; }
 
         /// <summary>
         /// Quantidade de gorduras (em gramas) por porção do alimento.
         /// </summary>
-        [Column("fats")]
         public decimal Fats { get; set; }
 
         /// <summary>
-        /// Contrutor da entidade Food para o cadastro de novos alimentos.
+        /// Construtor que representa a resposta de um alimento cadastrado no sistema.
         /// </summary>
-        /// <param name="userId">Identificador do usuário proprietário deste alimento.</param>
+        /// <param name="foodid">Identificador único do alimento.</param>
         /// <param name="name">Nome do alimento.</param>
         /// <param name="calories">Quantidade de calorias por porção do alimento.</param>
         /// <param name="proteins">Quantidade de proteína (em gramas) por porção do alimento.</param>
-        /// <param name="carbs">Quantidade de gorduras (em gramas) por porção do alimento.</param>
+        /// <param name="carbs">Quantidade de carboidratos (em gramas) por porção do alimento.</param>
         /// <param name="fats">Quantidade de gorduras (em gramas) por porção do alimento.</param>
-        public Food(int userId, string name, decimal calories, decimal proteins, decimal carbs, decimal fats)
+        public FoodResponse(int foodid, string name, decimal calories, decimal proteins, decimal carbs, decimal fats)
         {
-            UserId = userId;
+            FoodId = foodid;
             Name = name;
             Calories = calories;
             Proteins = proteins;

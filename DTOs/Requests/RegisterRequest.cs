@@ -26,12 +26,12 @@ namespace MyFood.DTOs.Requests
         /// <summary>
         /// Altura do usuário para cálculos de Taxa Metabólica Basal.
         /// </summary>
-        public double Height { get; set; }
+        public int Height { get; set; }
 
         /// <summary>
         /// Peso do usuário para cálculos de Taxa Metabólica Basal.
         /// </summary>
-        public double Weight { get; set; }
+        public int Weight { get; set; }
 
         /// <summary>
         /// Nível de Atividade para ajustar o gasto calórico diário com base no estilo de vida.
