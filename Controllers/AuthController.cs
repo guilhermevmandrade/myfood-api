@@ -30,9 +30,9 @@ namespace MyFood.Controllers
                 return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
             }
 
-            await _userService.RegisterAsync(request.Name, request.Email, request.Password);
+            await _userService.RegisterAsync(request);
 
-            return Created();
+            return Ok("Usuário criado com sucesso!");
         }
 
         [HttpPost("login")]
