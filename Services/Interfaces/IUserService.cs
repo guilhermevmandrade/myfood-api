@@ -1,4 +1,6 @@
-﻿using MyFood.DTOs.Responses;
+﻿using Azure.Core;
+using MyFood.DTOs.Requests;
+using MyFood.DTOs.Responses;
 using MyFood.Models;
 
 namespace MyFood.Services.Interfaces
@@ -6,6 +8,9 @@ namespace MyFood.Services.Interfaces
     public interface IUserService
     {
         Task<AuthResponse> AuthenticateAsync(string email, string password);
-        Task RegisterAsync(string name, string email, string password);
+        Task RegisterAsync(RegisterRequest request);
+        Task<GetUserResponse> GetUserAsync(int id);
+        Task UpdateUserAsync(UpdateUserRequest request, int id);
+        Task DeleteUserAsync(int id, string email, string password);
     }
 }

@@ -4,24 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace MyFood.DTOs.Requests
 {
     /// <summary>
-    /// Representa a requisição do endpoint "/register".
+    /// Representa a requisição do endpoint PUT "/user/me".
     /// </summary>
-    public sealed class RegisterRequest
+    public class UpdateUserRequest
     {
         /// <summary>
         /// O nome do usuário.
         /// </summary>
         public required string Name { get; init; }
-
-        /// <summary>
-        /// O email do usuário.
-        /// </summary>
-        public required string Email { get; init; }
-
-        /// <summary>
-        /// A senha do usuário.
-        /// </summary>
-        public required string Password { get; init; }
 
         /// <summary>
         /// Altura do usuário para cálculos de Taxa Metabólica Basal.

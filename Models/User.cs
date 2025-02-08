@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using MyFood.DTOs.Requests;
+using MyFood.Models.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyFood.Models
 {
@@ -40,17 +42,52 @@ namespace MyFood.Models
         public DateTime CreatedAt { get; set; }
 
         /// <summary>
-        /// Contrutor da entidade User
+        /// Altura do usuário para cálculos de Taxa Metabólica Basal.
         /// </summary>
+        [Column("height")]
+        public double Height { get; set; }
+
+        /// <summary>
+        /// Peso do usuário para cálculos de Taxa Metabólica Basal.
+        /// </summary>
+        [Column("weight")]
+        public double Weight { get; set; }
+
+        /// <summary>
+        /// Nível de Atividade para ajustar o gasto calórico diário com base no estilo de vida.
+        /// </summary>
+        [Column("activity_level")]
+        public ActivityLevel ActivityLevel { get; set; }
+
+        /// <summary>
+        /// Contrutor da entidade User para registrar novo usuário.
+        /// </summary>
+        /// <param name="request">Dados cadastrais do usuário.</param>
+        /// <param name="passwordHash">Hash da senha do usuário.</param>
+        public User(RegisterRequest request, string passwordHash)
+        {
+            Name = request.Name;
+            Email = request.Email;
+            PasswordHash = passwordHash;
+            CreatedAt = DateTime.UtcNow;
+            Height = request.Height;
+            Weight = request.Weight;
+            ActivityLevel = request.ActivityLevel;
+        }
+
+        /// <summary>
+        /// Contrutor da entidade User para o login do usuário.
+        /// </summary>
+        /// <param name="id">Identificador do usuário.</param>
         /// <param name="name">Nome do usuário.</param>
         /// <param name="email">Email do usuário.</param>
         /// <param name="passwordHash">Hash da senha do usuário.</param>
-        public User(string name, string email, string passwordHash)
+        public User(int id, string name, string email, string passwordHash)
         {
+            Id = id;
             Name = name;
             Email = email;
             PasswordHash = passwordHash;
-            CreatedAt = DateTime.UtcNow;  
         }
     }
 }

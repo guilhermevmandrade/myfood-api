@@ -1,6 +1,8 @@
 ﻿using Dapper;
 using MyFood.Models;
 using MyFood.Data.Repositories.Interfaces;
+using MyFood.DTOs.Responses;
+using MyFood.DTOs.Requests;
 
 namespace MyFood.Data.Repositories
 {
@@ -26,45 +28,61 @@ namespace MyFood.Data.Repositories
         /// <param name="user">Informações do usuário a serem registradas.</param>
         public async Task CreateAsync(User user)
         {
-            string query = @"INSERT INTO ""user"" (name, email, password_hash, created_at) 
-                             VALUES (@Name, @Email, @PasswordHash, @CreatedAt)";
+            string query = @"INSERT INTO ""user"" (
+                                name, email, password_hash, created_at, height, weight, activity_level
+                            ) 
+                             VALUES (
+                                @Name, @Email, @PasswordHash, @CreatedAt, @Height, @Weight, @ActivityLevel
+                            )";
 
             await _dbSession.Connection.ExecuteAsync(query, user, _dbSession.Transaction);
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync()
+        /// <summary>
+        /// Obtém o usuário a partir do seu identificador.
+        /// </summary>
+        /// <param name="id">Identificador do usuário.</param>
+        /// <returns>Informações do usuário correspondente.</returns>
+        public async Task<GetUserResponse?> GetByIdAsync(int id)
         {
-            string query = "SELECT * FROM \"user\"";
+            string query = @"SELECT 
+                                name AS Name,
+                                email AS Email,
+                                height AS Height,
+                                weight AS Weight,
+                                activity_level AS ActivityLevel
+                            FROM ""user""
+                            WHERE id = @Id";
 
-            var result = await _dbSession.Connection.QueryAsync<User>(query);
-            return result.ToList();
+            return await _dbSession.Connection.QueryFirstOrDefaultAsync<GetUserResponse>(query, new { Id = id });
         }
 
-        public async Task<User?> GetByIdAsync(int id)
-        {
-            string query = "SELECT * FROM \"user\" WHERE id = @Id";
-
-            return await _dbSession.Connection.QueryFirstOrDefaultAsync<User>(query, new { Id = id });
-        }
-
-        public async Task<bool> UpdateAsync(User food)
+        /// <summary>
+        /// Atualiza os dados do usuário.
+        /// </summary>
+        /// <param name="user">Dados do usuário a serem atualizados.</param>
+        /// <param name="id">Identificador do usuário a atualizar</param>
+        public async Task UpdateAsync(UpdateUserRequest user, int id)
         {
             string query = @"UPDATE ""user"" SET 
                                  name = @Name, 
-                                 email = @Email, 
-                                 password_hash = @PasswordHash
+                                 height = @Height,
+                                 weight = @Weight,
+                                 activity_level = @ActivityLevel
                              WHERE id = @Id";
 
-            var rowsAffected = await _dbSession.Connection.ExecuteAsync(query, food, _dbSession.Transaction);
-            return rowsAffected > 0;
+            await _dbSession.Connection.ExecuteAsync(query, new { user.Name, user.Height, user.Weight, user.ActivityLevel, Id = id }, _dbSession.Transaction);
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        /// <summary>
+        /// Deleta o usuário a partir do seu identificador.
+        /// </summary>
+        /// <param name="id">Identificador do usuário.</param>
+        public async Task DeleteAsync(int id)
         {
             string query = "DELETE FROM \"user\" WHERE id = @Id";
 
-            var rowsAffected = await _dbSession.Connection.ExecuteAsync(query, new { Id = id }, _dbSession.Transaction);
-            return rowsAffected > 0;
+            await _dbSession.Connection.ExecuteAsync(query, new { Id = id }, _dbSession.Transaction);
         }
 
         /// <summary>
@@ -75,6 +93,7 @@ namespace MyFood.Data.Repositories
         public async Task<User?> GetByEmailAsync(string email)
         {
             string query = @"SELECT 
+                                id AS Id,
                                 name AS Name,
                                 email AS Email,
                                 password_hash AS PasswordHash

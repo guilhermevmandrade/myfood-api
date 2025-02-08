@@ -1,8 +1,10 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Azure.Core;
 using MyFood.Data.Repositories;
 using MyFood.Data.Repositories.Interfaces;
+using MyFood.DTOs.Requests;
 using MyFood.DTOs.Responses;
 using MyFood.Models;
 using MyFood.Security;
@@ -29,13 +31,30 @@ namespace MyFood.Services
         }
 
         /// <summary>
+        /// Registra um novo usuário no sistema, verificando se o e-mail já existe.
+        /// Se o e-mail for único, cria um novo usuário e retorna o objeto criado.
+        /// </summary>
+        /// <param name="request">Dados cadastrais do usuário.</param>
+        public async Task RegisterAsync(RegisterRequest request)
+        {
+            if (await _userRepository.GetByEmailAsync(request.Email) != null)
+            {
+                throw new Exception("Email já cadastrado.");
+            }
+
+            var user = new User(request, HashPassword(request.Password));
+
+            await _userRepository.CreateAsync(user);
+        }
+
+        /// <summary>
         /// Autentica um usuário com base no e-mail e senha fornecidos.
         /// Se a autenticação for bem-sucedida, um token JWT é gerado.
         /// </summary>
         /// <param name="email">Endereço de e-mail do usuário.</param>
         /// <param name="password">Senha do usuário.</param>
         /// <returns>
-        /// Um objeto <see cref="AuthResponse"/> contendo o token JWT e o ID do usuário.
+        /// Um objeto <see cref="AuthResponse"/> contendo o token JWT e dados do usuário.
         /// </returns>
         public async Task<AuthResponse> AuthenticateAsync(string email, string password)
         {
@@ -46,37 +65,71 @@ namespace MyFood.Services
             }
             if (!VerifyPassword(password, user.PasswordHash))
             {
-                throw new Exception("Dados incorretos.");
+                throw new Exception("Senha incorreta.");
             }
 
             var token = _jwtService.GenerateToken(user);
 
-            return new AuthResponse(
-                token,
-                user.Email
-            );
+            return new AuthResponse(token, user.Name, user.Email);
         }
 
         /// <summary>
-        /// Registra um novo usuário no sistema, verificando se o e-mail já existe.
-        /// Se o e-mail for único, cria um novo usuário e retorna o objeto criado.
+        /// Obtém os principais dados do usuário.
         /// </summary>
-        /// <param name="name">Nome do usuário.</param>
-        /// <param name="email">Endereço de e-mail do usuário.</param>
-        /// <param name="password">Senha do usuário.</param>
+        /// <param name="id">Identificador do usuário.</param>
         /// <returns>
-        /// Um objeto <see cref="User"/> representando o usuário criado.
+        /// Um objeto <see cref="GetUserResponse"/> com os principais dados do usuário.
         /// </returns>
-        public async Task RegisterAsync(string name, string email, string password)
+        public async Task<GetUserResponse> GetUserAsync(int id)
         {
-            if (await _userRepository.GetByEmailAsync(email) != null)
+            var user = await _userRepository.GetByIdAsync(id);
+
+            if (user == null)
             {
-                throw new Exception("Email já cadastrado.");
+                throw new Exception("Usuário não encontrado.");
             }
 
-            var user = new User(name, email, HashPassword(password));
+            return user;
+        }
 
-            await _userRepository.CreateAsync(user);
+        /// <summary>
+        /// Atualiza os dados do usuário.
+        /// </summary>
+        /// <param name="request">Dados so usuário a serem atualizados.</param>
+        /// <param name="id">Identificador do usuário.</param>
+        /// <returns></returns>
+        public async Task UpdateUserAsync(UpdateUserRequest request, int id)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+            if (user == null)
+            {
+                throw new Exception("Usuário não encontrado.");
+            }
+
+            await _userRepository.UpdateAsync(request, id);
+        }
+
+        /// <summary>
+        /// Deleta o usuário com identificador correspondente.
+        /// </summary>
+        /// <param name="id">Identificador do usuário.</param>
+        /// <param name="email">Email do usuário para confirmação de exclusão.</param>
+        /// <param name="password">Senha do usuário para confirmação de exclusão.</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public async Task DeleteUserAsync(int id, string email, string password)
+        {
+            var user = await _userRepository.GetByEmailAsync(email);
+            if (user == null)
+            {
+                throw new Exception("Usuário não encontrado.");
+            }
+            if (!VerifyPassword(password, user.PasswordHash))
+            {
+                throw new Exception("Senha incorreta.");
+            }
+
+            await _userRepository.DeleteAsync(id);
         }
 
         /// <summary>
