@@ -30,18 +30,18 @@ namespace MyFood.Models
         /// Percentual de calorias vindas da proteína.
         /// </summary>
         [Column("protein_percentage")]
-        public double ProteinPercentage { get; set; }
+        public int ProteinPercentage { get; set; }
 
         /// <summary>
         /// Percentual de calorias vindas dos carboidratos.
         /// </summary>
         [Column("carbs_percentage")]
-        public double CarbsPercentage { get; set; }
+        public int CarbsPercentage { get; set; }
 
         /// <summary>
         /// Percentual de calorias vindas das gorduras
         /// </summary>
         [Column("fat_percentage")]
-        public double FatPercentage { get; set; }
+        public int FatPercentage { get; set; }
     }
 }

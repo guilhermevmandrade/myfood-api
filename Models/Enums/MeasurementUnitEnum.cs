@@ -1,10 +1,9 @@
 ﻿namespace MyFood.Models.Enums
 {
-    public enum MeasurementUnit
+    public enum MeasurementUnitEnum
     {
         Grams,
         Milliliters,
-        Units,
         Tablespoons,
         Teaspoons
     }

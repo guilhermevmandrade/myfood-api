@@ -13,7 +13,7 @@ namespace MyFood.Data.Repositories.Interfaces
         Task UpdateAsync(MealRequest meal, int id);
         Task DeleteAsync(int id);
         Task<bool> MealExistsAsync(int mealId, int userId);
-        Task AddFoodToMealAsync(int mealId, int foodId, decimal quantity, MeasurementUnit unit);
+        Task AddFoodToMealAsync(int mealId, int foodId, decimal quantity, MeasurementUnitEnum unit);
         Task RemoveFoodFromMealAsync(int mealId, int foodId);
     }
 }

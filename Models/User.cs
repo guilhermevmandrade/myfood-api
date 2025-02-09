@@ -42,6 +42,12 @@ namespace MyFood.Models
         public DateTime CreatedAt { get; set; }
 
         /// <summary>
+        /// Gênero do usuário para cálculos de Taxa Metabólica Basal.
+        /// </summary>
+        [Column("gender")]
+        public GenderEnum Gender { get; set; }
+
+        /// <summary>
         /// Altura do usuário para cálculos de Taxa Metabólica Basal.
         /// </summary>
         [Column("height")]
@@ -57,23 +63,25 @@ namespace MyFood.Models
         /// Nível de Atividade para ajustar o gasto calórico diário com base no estilo de vida.
         /// </summary>
         [Column("activity_level")]
-        public ActivityLevel ActivityLevel { get; set; }
+        public ActivityLevelEnum ActivityLevel { get; set; }
 
         /// <summary>
         /// Contrutor da entidade User para registrar novo usuário.
         /// </summary>
         /// <param name="name">Nome do usuário.</param>
         /// <param name="email">Endereço de email do usuário.</param>
+        /// <param name="gender">Gênero do usuário.</param>
         /// <param name="height">Altura do usuário.</param>
         /// <param name="weight">Peso do usuário.</param>
         /// <param name="activityLevel">Nível de Atividade do usuário.</param>
         /// <param name="passwordHash">Hash da senha do usuário.</param>
-        public User(string name, string email, int height, int weight, ActivityLevel activityLevel, string passwordHash)
+        public User(string name, string email, GenderEnum gender, int height, int weight, ActivityLevelEnum activityLevel, string passwordHash)
         {
             Name = name;
             Email = email;
             PasswordHash = passwordHash;
             CreatedAt = DateTime.UtcNow;
+            Gender = gender;
             Height = height;
             Weight = weight;
             ActivityLevel = activityLevel;

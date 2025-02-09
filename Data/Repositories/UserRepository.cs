@@ -30,9 +30,9 @@ namespace MyFood.Data.Repositories
         public async Task CreateAsync(User user)
         {
             string query = @"INSERT INTO ""user"" 
-                                (name, email, password_hash, created_at, height, weight, activity_level) 
+                                (name, email, password_hash, created_at, gender, height, weight, activity_level) 
                              VALUES 
-                                (@Name, @Email, @PasswordHash, @CreatedAt, @Height, @Weight, @ActivityLevel)";
+                                (@Name, @Email, @PasswordHash, @CreatedAt, @Gender, @Height, @Weight, @ActivityLevelEnum)";
 
             await _dbSession.Connection.ExecuteAsync(query, user, _dbSession.Transaction);
         }
@@ -47,9 +47,10 @@ namespace MyFood.Data.Repositories
             string query = @"SELECT 
                                 name AS Name,
                                 email AS Email,
+                                gender AS Gender,
                                 height AS Height,
                                 weight AS Weight,
-                                activity_level AS ActivityLevel
+                                activity_level AS ActivityLevelEnum
                             FROM ""user""
                             WHERE id = @Id";
 
@@ -83,13 +84,14 @@ namespace MyFood.Data.Repositories
         public async Task UpdateAsync(UpdateUserRequest user, int id)
         {
             string query = @"UPDATE ""user"" SET 
-                                 name = @Name, 
+                                 name = @Name,
+                                 gender = @Gender,
                                  height = @Height,
                                  weight = @Weight,
-                                 activity_level = @ActivityLevel
+                                 activity_level = @ActivityLevelEnum
                              WHERE id = @Id";
 
-            await _dbSession.Connection.ExecuteAsync(query, new { user.Name, user.Height, user.Weight, user.ActivityLevel, Id = id }, _dbSession.Transaction);
+            await _dbSession.Connection.ExecuteAsync(query, new { user.Name, user.Gender, user.Height, user.Weight, user.ActivityLevel, Id = id }, _dbSession.Transaction);
         }
 
         /// <summary>

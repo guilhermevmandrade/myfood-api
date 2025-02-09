@@ -46,7 +46,7 @@ namespace MyFood.Services
                     throw new Exception("Email já cadastrado.");
                 }
 
-                var user = new User(request.Name, request.Email, request.Height, request.Weight, request.ActivityLevel, HashPassword(request.Password));
+                var user = new User(request.Name, request.Email, request.Gender, request.Height, request.Weight, request.ActivityLevel, HashPassword(request.Password));
 
                 await _userRepository.CreateAsync(user);
 

@@ -175,7 +175,7 @@ namespace MyFood.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ActivityLevel")
+                    b.Property<int>("ActivityLevelEnum")
                         .HasColumnType("integer")
                         .HasColumnName("activity_level");
 

@@ -204,7 +204,7 @@ namespace MyFood.Data.Repositories
         /// <param name="quantity">Quantidade do alimento na refeição.</param>
         /// <param name="unit">Unidade de medida da quantidade de alimento.</param>
         /// <returns></returns>
-        public async Task AddFoodToMealAsync(int mealId, int foodId, decimal quantity, MeasurementUnit unit)
+        public async Task AddFoodToMealAsync(int mealId, int foodId, decimal quantity, MeasurementUnitEnum unit)
         {
             string query = @"INSERT INTO meal_food
                                 (meal_id, food_id, quantity, unit) 

@@ -15,6 +15,6 @@ namespace MyFood.DTOs.Requests
         /// <summary>
         /// Unidade de medida da quantidade de alimento na refeição.
         /// </summary>
-        public MeasurementUnit Unit { get; set; }
+        public MeasurementUnitEnum Unit { get; set; }
     }
 }

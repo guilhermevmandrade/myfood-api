@@ -20,7 +20,7 @@ namespace MyFood.DTOs.Responses
         /// <summary>
         /// Unidade de medida da quantidade (ex: gramas, unidades, etc).
         /// </summary>
-        public MeasurementUnit Unit { get; set; }
+        public MeasurementUnitEnum Unit { get; set; }
 
         /// <summary>
         /// Alimento que compõe a refeição.
@@ -33,7 +33,7 @@ namespace MyFood.DTOs.Responses
         /// <param name="mealfoodid">Identificador da relação entre refeição e alimento.</param>
         /// <param name="quantity">Quantidade do alimento na refeição.</param>
         /// <param name="unit">Unidade de medida da quantidade (ex: gramas, unidades, etc).</param>
-        public MealFoodResponse(int mealfoodid, decimal quantity, MeasurementUnit unit)
+        public MealFoodResponse(int mealfoodid, decimal quantity, MeasurementUnitEnum unit)
         {
             MealFoodId = mealfoodid;
             Quantity = quantity;

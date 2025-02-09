@@ -1,6 +1,6 @@
 ﻿namespace MyFood.Models.Enums
 {
-    public enum ActivityLevel
+    public enum ActivityLevelEnum
     {
         Sedentary,   // Pouco ou nenhum exercício
         Light,       // Exercício leve (1 a 3 dias por semana)
