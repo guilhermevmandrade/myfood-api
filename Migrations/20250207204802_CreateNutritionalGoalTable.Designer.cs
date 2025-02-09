@@ -140,11 +140,11 @@ namespace MyFood.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("daily_calories");
 
-                    b.Property<double>("FatPercentage")
+                    b.Property<double>("FatsPercentage")
                         .HasColumnType("double precision")
                         .HasColumnName("fat_percentage");
 
-                    b.Property<double>("ProteinPercentage")
+                    b.Property<double>("ProteinsPercentage")
                         .HasColumnType("double precision")
                         .HasColumnName("protein_percentage");
 
@@ -169,7 +169,7 @@ namespace MyFood.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ActivityLevel")
+                    b.Property<int>("ActivityLevelEnum")
                         .HasColumnType("integer")
                         .HasColumnName("activity_level");
 

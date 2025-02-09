@@ -1,8 +1,8 @@
 ﻿using Dapper;
-using MyFood.Models;
 using MyFood.Data.Repositories.Interfaces;
-using MyFood.DTOs.Responses;
 using MyFood.DTOs.Requests;
+using MyFood.DTOs.Responses;
+using MyFood.Models;
 
 namespace MyFood.Data.Repositories
 {
@@ -109,6 +109,25 @@ namespace MyFood.Data.Repositories
             string query = "DELETE FROM food WHERE id = @Id";
 
             await _dbSession.Connection.ExecuteAsync(query, new { Id = id }, _dbSession.Transaction);
+        }
+
+        /// <summary>
+        /// Verifica se um alimento com o identificador especificado existe para o usuário.
+        /// </summary>
+        /// <param name="foodId">Identificador do alimento.</param>
+        /// <param name="userId">Identificador do usuário.</param>
+        /// <returns>Valor booleano indicando se o alimento existe para (true) ou não (false).</returns>
+        public async Task<bool> FoodExistsAsync(int foodId, int userId)
+        {
+            string query = @"SELECT 1 FROM food 
+                            WHERE 
+                                id = @FoodId 
+                            AND 
+                                user_id = @UserId";
+
+            var result = await _dbSession.Connection.ExecuteScalarAsync<int?>(query, new { FoodId = foodId, UserId = userId });
+
+            return result.HasValue;
         }
     }
 }

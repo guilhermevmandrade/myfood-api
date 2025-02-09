@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyFood.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MyFood.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250209175522_UpdateProteinGoalColumn")]
+    partial class UpdateProteinGoalColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,7 +148,7 @@ namespace MyFood.Migrations
 
                     b.Property<int>("FatsPercentage")
                         .HasColumnType("integer")
-                        .HasColumnName("fats_percentage");
+                        .HasColumnName("fat_percentage");
 
                     b.Property<int>("ProteinsPercentage")
                         .HasColumnType("integer")
@@ -154,10 +157,6 @@ namespace MyFood.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
                         .HasColumnName("user_id");
-
-                    b.Property<int>("WeightGoal")
-                        .HasColumnType("integer")
-                        .HasColumnName("weight_goal");
 
                     b.HasKey("Id");
 
@@ -179,10 +178,6 @@ namespace MyFood.Migrations
                     b.Property<int>("ActivityLevel")
                         .HasColumnType("integer")
                         .HasColumnName("activity_level");
-
-                    b.Property<int>("Age")
-                        .HasColumnType("integer")
-                        .HasColumnName("age");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")

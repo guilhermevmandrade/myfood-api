@@ -1,5 +1,5 @@
-﻿using System.Data;
-using Npgsql;
+﻿using Npgsql;
+using System.Data;
 
 namespace MyFood.Data
 {
@@ -8,7 +8,7 @@ namespace MyFood.Data
         private Guid _id;
         public IDbConnection Connection { get; }
         public IDbTransaction Transaction { get; set; }
-        
+
 
         public DbSession(IConfiguration configuration)
         {

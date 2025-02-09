@@ -1,17 +1,15 @@
-﻿using Azure.Core;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyFood.DTOs.Requests;
-using MyFood.Models;
 using MyFood.Services.Interfaces;
 using System.Security.Claims;
 
 namespace MyFood.Controllers
 {
     [ApiController]
-    [Route("api/food")]
+    [Route("api/foods")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class FoodController : ControllerBase
     {
@@ -23,6 +21,7 @@ namespace MyFood.Controllers
             _foodService = foodService;
             _foodValidator = foodValidator;
         }
+
 
         [HttpGet]
         public async Task<IActionResult> ListUserFoods()
@@ -38,6 +37,7 @@ namespace MyFood.Controllers
             return Ok(foodList);
         }
 
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserFood(int id)
         {
@@ -51,6 +51,7 @@ namespace MyFood.Controllers
 
             return Ok(food);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> RegisterFood(FoodRequest request)
@@ -72,6 +73,7 @@ namespace MyFood.Controllers
             return Ok("Alimento cadastrado com sucesso!");
         }
 
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateFood(FoodRequest request, int id)
         {
@@ -91,6 +93,7 @@ namespace MyFood.Controllers
 
             return Ok("Alimento ataualizado com sucesso!");
         }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFood(int id)

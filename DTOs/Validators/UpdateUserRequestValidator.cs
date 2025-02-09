@@ -11,6 +11,13 @@ namespace MyFood.DTOs.Validators
                 .NotEmpty().WithMessage("O nome é obrigatório.")
                 .MaximumLength(100).WithMessage("O nome pode ter no máximo 100 caracteres.");
 
+            RuleFor(x => x.Gender)
+                .IsInEnum().WithMessage("O gênero deve ser um valor válido.");
+
+            RuleFor(x => x.Age)
+                .GreaterThan(0).WithMessage("A idade deve ser maior que zero.")
+                .LessThanOrEqualTo(100).WithMessage("A idade deve ser um valor realista.");
+
             RuleFor(x => x.Height)
                 .GreaterThan(0).WithMessage("A altura deve ser um valor positivo.")
                 .LessThanOrEqualTo(250).WithMessage("A altura deve ser um valor realista (máximo 250 cm).");

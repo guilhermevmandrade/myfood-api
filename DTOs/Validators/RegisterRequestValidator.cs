@@ -24,6 +24,13 @@ namespace MyFood.DTOs.Validators
                 .Matches(@"\d").WithMessage("A senha deve conter pelo menos um número.")
                 .Matches(@"[\@\!\#\$\%\^\&\*\(\)\+\-\=]").WithMessage("A senha deve conter pelo menos um caractere especial (@, !, #, $, etc.).");
 
+            RuleFor(x => x.Gender)
+                .IsInEnum().WithMessage("O gênero deve ser um valor válido.");
+
+            RuleFor(x => x.Age)
+                .GreaterThan(0).WithMessage("A idade deve ser maior que zero.")
+                .LessThanOrEqualTo(100).WithMessage("A idade deve ser um valor realista.");
+
             RuleFor(x => x.Height)
                 .GreaterThan(0).WithMessage("A altura deve ser um valor positivo.")
                 .LessThanOrEqualTo(250).WithMessage("A altura deve ser um valor realista (máximo 250 cm).");

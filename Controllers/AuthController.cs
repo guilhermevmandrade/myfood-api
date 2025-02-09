@@ -20,6 +20,7 @@ namespace MyFood.Controllers
             _loginValidator = loginValidator;
         }
 
+
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
@@ -33,6 +34,7 @@ namespace MyFood.Controllers
 
             return Ok("Usuário criado com sucesso!");
         }
+
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequest request)

@@ -1,18 +1,23 @@
-﻿using MyFood.Data.Repositories.Interfaces;
-using MyFood.Data;
+﻿using MyFood.Data;
+using MyFood.Data.Repositories.Interfaces;
+using MyFood.DTOs.Requests;
+using MyFood.DTOs.Responses;
 using MyFood.Models;
 using MyFood.Services.Interfaces;
-using MyFood.DTOs.Responses;
-using MyFood.DTOs.Requests;
-using MyFood.Data.Repositories;
 
 namespace MyFood.Services
 {
+    /// <summary>
+    /// Implementação do serviço de refeições, responsável pelo registro, atualização, busca e exclusão.
+    /// </summary>
     public class MealService : IMealService
     {
         private readonly IMealRepository _mealRepository;
         private readonly IUnitOfWork _unitOfWork;
 
+        /// <summary>
+        /// Construtor que recebe as dependências necessárias para manipulação de refeições.
+        /// </summary>
         public MealService(IMealRepository mealRepository, IUnitOfWork unitOfWork)
         {
             _mealRepository = mealRepository;
@@ -86,8 +91,8 @@ namespace MyFood.Services
             {
                 _unitOfWork.BeginTransaction();
 
-                var meal = await _mealRepository.GetUserMealByIdAsync(mealId, userId);
-                if (meal == null)
+                bool mealExists = await _mealRepository.MealExistsAsync(mealId, userId);
+                if (!mealExists)
                 {
                     throw new Exception("Refeição não encontrada.");
                 }
@@ -116,13 +121,75 @@ namespace MyFood.Services
             {
                 _unitOfWork.BeginTransaction();
 
-                var meal = await _mealRepository.GetUserMealByIdAsync(mealId, userId);
-                if (meal == null)
+                bool mealExists = await _mealRepository.MealExistsAsync(mealId, userId);
+                if (!mealExists)
                 {
-                    throw new Exception("Alimento não encontrado.");
+                    throw new Exception("Refeição não encontrada.");
                 }
 
                 await _mealRepository.DeleteAsync(mealId);
+
+                _unitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                _unitOfWork.Rollback();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Adiciona um alimento a uma refeição do usuário no banco de dados.
+        /// </summary>
+        /// <param name="request">Dados do alimento, como quantidade e unidade de medida, na refeição.</param>
+        /// <param name="mealId">Identificador da refeição.</param>
+        /// <param name="foodId">Identificador do alimento.</param>
+        /// <param name="userId">Identificador do usuário.</param>
+        /// <returns></returns>
+        public async Task AddFoodToMealAsync(MealFoodRequest request, int mealId, int foodId, int userId)
+        {
+            try
+            {
+                _unitOfWork.BeginTransaction();
+
+                bool mealExists = await _mealRepository.MealExistsAsync(mealId, userId);
+                if (!mealExists)
+                {
+                    throw new Exception("Refeição não encontrada.");
+                }
+
+                await _mealRepository.AddFoodToMealAsync(mealId, foodId, request.Quantity, request.Unit);
+
+                _unitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                _unitOfWork.Rollback();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Remove o alimento de uma refeição no banco de dados.
+        /// </summary>
+        /// <param name="mealId">Identificador da refeição.</param>
+        /// <param name="foodId">Identificador do alimento.</param>
+        /// <param name="userId">Identificador do usuário.</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task RemoveFoodFromMealAsync(int mealId, int foodId, int userId)
+        {
+            try
+            {
+                _unitOfWork.BeginTransaction();
+
+                bool mealExists = await _mealRepository.MealExistsAsync(mealId, userId);
+                if (!mealExists)
+                {
+                    throw new Exception("Refeição não encontrada.");
+                }
+
+                await _mealRepository.RemoveFoodFromMealAsync(mealId, foodId);
 
                 _unitOfWork.Commit();
             }

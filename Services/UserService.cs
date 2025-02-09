@@ -1,17 +1,17 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-using MyFood.Data;
+﻿using MyFood.Data;
 using MyFood.Data.Repositories.Interfaces;
 using MyFood.DTOs.Requests;
 using MyFood.DTOs.Responses;
 using MyFood.Models;
 using MyFood.Security;
 using MyFood.Services.Interfaces;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MyFood.Services
 {
     /// <summary>
-    /// Implementação do serviço de usuários, responsável por autenticação e registro.
+    /// Implementação do serviço de usuários, responsável por autenticação, registro, busca e exclusão.
     /// Esta classe usa um repositório de usuários e um serviço JWT para login e criação de contas.
     /// </summary>
     public class UserService : IUserService
@@ -46,18 +46,27 @@ namespace MyFood.Services
                     throw new Exception("Email já cadastrado.");
                 }
 
-                var user = new User(request.Name, request.Email, request.Height, request.Weight, request.ActivityLevel, HashPassword(request.Password));
+                var user = new User(
+                    request.Name,
+                    request.Email,
+                    request.Gender,
+                    request.Age,
+                    request.Height,
+                    request.Weight,
+                    request.ActivityLevel,
+                    HashPassword(request.Password)
+                );
 
                 await _userRepository.CreateAsync(user);
 
                 _unitOfWork.Commit();
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 _unitOfWork.Rollback();
                 throw;
             }
-            
+
         }
 
         /// <summary>
@@ -117,8 +126,8 @@ namespace MyFood.Services
             {
                 _unitOfWork.BeginTransaction();
 
-                var user = await _userRepository.GetByIdAsync(id);
-                if (user == null)
+                bool userExists = await _userRepository.UserExistsAsync(id);
+                if (!userExists)
                 {
                     throw new Exception("Usuário não encontrado.");
                 }
@@ -127,7 +136,7 @@ namespace MyFood.Services
 
                 _unitOfWork.Commit();
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 _unitOfWork.Rollback();
                 throw;

@@ -1,5 +1,4 @@
 ﻿using MyFood.Models.Enums;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyFood.DTOs.Requests
 {
@@ -19,6 +18,16 @@ namespace MyFood.DTOs.Requests
         public double Height { get; set; }
 
         /// <summary>
+        /// Gênero do usuário para cálculos de Taxa Metabólica Basal.
+        /// </summary>
+        public GenderEnum Gender { get; set; }
+
+        /// <summary>
+        /// Idade do usuário para cálculos de Taxa Metabólica Basal.
+        /// </summary>
+        public int Age { get; set; }
+
+        /// <summary>
         /// Peso do usuário para cálculos de Taxa Metabólica Basal.
         /// </summary>
         public double Weight { get; set; }
@@ -26,6 +35,6 @@ namespace MyFood.DTOs.Requests
         /// <summary>
         /// Nível de Atividade para ajustar o gasto calórico diário com base no estilo de vida.
         /// </summary>
-        public ActivityLevel ActivityLevel { get; set; }
+        public ActivityLevelEnum ActivityLevel { get; set; }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using Dapper;
-using MyFood.Models;
 using MyFood.Data.Repositories.Interfaces;
-using MyFood.DTOs.Responses;
 using MyFood.DTOs.Requests;
+using MyFood.DTOs.Responses;
+using MyFood.Models;
 
 namespace MyFood.Data.Repositories
 {
@@ -30,9 +30,9 @@ namespace MyFood.Data.Repositories
         public async Task CreateAsync(User user)
         {
             string query = @"INSERT INTO ""user"" 
-                                (name, email, password_hash, created_at, height, weight, activity_level) 
+                                (name, email, password_hash, created_at, gender, age, height, weight, activity_level) 
                              VALUES 
-                                (@Name, @Email, @PasswordHash, @CreatedAt, @Height, @Weight, @ActivityLevel)";
+                                (@Name, @Email, @PasswordHash, @CreatedAt, @Gender, @Age, @Height, @Weight, @ActivityLevel)";
 
             await _dbSession.Connection.ExecuteAsync(query, user, _dbSession.Transaction);
         }
@@ -47,6 +47,8 @@ namespace MyFood.Data.Repositories
             string query = @"SELECT 
                                 name AS Name,
                                 email AS Email,
+                                gender AS Gender,
+                                age AS Age,
                                 height AS Height,
                                 weight AS Weight,
                                 activity_level AS ActivityLevel
@@ -83,13 +85,24 @@ namespace MyFood.Data.Repositories
         public async Task UpdateAsync(UpdateUserRequest user, int id)
         {
             string query = @"UPDATE ""user"" SET 
-                                 name = @Name, 
+                                 name = @Name,
+                                 gender = @Gender,
+                                 age = @Age,
                                  height = @Height,
                                  weight = @Weight,
                                  activity_level = @ActivityLevel
                              WHERE id = @Id";
 
-            await _dbSession.Connection.ExecuteAsync(query, new { user.Name, user.Height, user.Weight, user.ActivityLevel, Id = id }, _dbSession.Transaction);
+            await _dbSession.Connection.ExecuteAsync(query, new
+            {
+                user.Name,
+                user.Gender,
+                user.Age,
+                user.Height,
+                user.Weight,
+                user.ActivityLevel,
+                Id = id
+            }, _dbSession.Transaction);
         }
 
         /// <summary>
@@ -102,6 +115,20 @@ namespace MyFood.Data.Repositories
             string query = "DELETE FROM \"user\" WHERE id = @Id";
 
             await _dbSession.Connection.ExecuteAsync(query, new { Id = id }, _dbSession.Transaction);
+        }
+
+        /// <summary>
+        /// Verifica se existe um usuário com o identificador especificado.
+        /// </summary>
+        /// <param name="id">Identificador do usuário.</param>
+        /// <returns>Valor booleano indicando se o usuário existe (true) ou não (false).</returns>
+        public async Task<bool> UserExistsAsync(int id)
+        {
+            string query = "SELECT 1 FROM \"user\" WHERE id = @Id";
+
+            var result = await _dbSession.Connection.ExecuteScalarAsync<int?>(query, new { Id = id });
+
+            return result.HasValue;
         }
     }
 }

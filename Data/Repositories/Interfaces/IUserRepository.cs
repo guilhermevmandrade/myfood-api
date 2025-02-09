@@ -11,5 +11,6 @@ namespace MyFood.Data.Repositories.Interfaces
         Task<User?> GetByEmailAsync(string email);
         Task UpdateAsync(UpdateUserRequest user, int id);
         Task DeleteAsync(int id);
+        Task<bool> UserExistsAsync(int id);
     }
 }

@@ -28,7 +28,7 @@
 
         public void Dispose()
         {
-           _session.Transaction?.Dispose();
-        } 
+            _session.Transaction?.Dispose();
+        }
     }
 }

@@ -34,9 +34,9 @@ namespace MyFood.Models
         public decimal Quantity { get; set; }
 
         /// <summary>
-        /// Unidade de medida usada na quantidade de alimento na refeição.
+        /// Unidade de medida da quantidade de alimento na refeição.
         /// </summary>
         [Column("unit")]
-        public MeasurementUnit Unit { get; set; }
+        public MeasurementUnitEnum Unit { get; set; }
     }
 }
