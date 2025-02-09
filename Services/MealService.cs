@@ -7,11 +7,17 @@ using MyFood.DTOs.Requests;
 
 namespace MyFood.Services
 {
+    /// <summary>
+    /// Implementação do serviço de refeições, responsável pelo registro, atualização, busca e exclusão.
+    /// </summary>
     public class MealService : IMealService
     {
         private readonly IMealRepository _mealRepository;
         private readonly IUnitOfWork _unitOfWork;
 
+        /// <summary>
+        /// Construtor que recebe as dependências necessárias para manipulação de refeições.
+        /// </summary>
         public MealService(IMealRepository mealRepository, IUnitOfWork unitOfWork)
         {
             _mealRepository = mealRepository;

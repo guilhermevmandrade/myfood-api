@@ -9,7 +9,7 @@ using MyFood.Services.Interfaces;
 namespace MyFood.Services
 {
     /// <summary>
-    /// Implementação do serviço de alimentos, responsável pelo registro, atualização e busca.
+    /// Implementação do serviço de alimentos, responsável pelo registro, atualização, busca e exclusão.
     /// </summary>
     public class FoodService : IFoodService
     {

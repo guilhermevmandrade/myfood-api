@@ -24,6 +24,11 @@ namespace MyFood.DTOs.Responses
         public GenderEnum Gender { get; set; }
 
         /// <summary>
+        /// Idade do usuário para cálculos de Taxa Metabólica Basal.
+        /// </summary>
+        public int Age { get; set; }
+
+        /// <summary>
         /// Altura do usuário para cálculos de Taxa Metabólica Basal.
         /// </summary>
         public double Height { get; set; }
@@ -44,14 +49,16 @@ namespace MyFood.DTOs.Responses
         /// <param name="name">Nome do usuário.</param>
         /// <param name="email">Endereço de email do usuário.</param>
         /// <param name="gender">Gênero do usuário para cálculos de Taxa Metabólica Basal.</param>
+        /// <param name="age">Idade do usuário para cálculos de Taxa Metabólica Basal.</param>
         /// <param name="height">Altura do usuário para cálculos de Taxa Metabólica Basal.</param>
         /// <param name="weight">Peso do usuário para cálculos de Taxa Metabólica Basal.</param>
         /// <param name="activityLevel">Nível de Atividade para ajustar o gasto calórico diário com base no estilo de vida.</param>
-        public GetUserResponse(string name, string email, GenderEnum gender, double height, double weight, ActivityLevelEnum activityLevel)
+        public GetUserResponse(string name, string email, GenderEnum gender, int age, double height, double weight, ActivityLevelEnum activityLevel)
         {
             Name = name;
             Email = email;
             Gender = gender;
+            Age = age;
             Height = height;
             Weight = weight;
             ActivityLevel = activityLevel;

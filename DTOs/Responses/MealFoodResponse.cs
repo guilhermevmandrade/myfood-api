@@ -3,7 +3,7 @@
 namespace MyFood.DTOs.Responses
 {
     /// <summary>
-    /// Representa a requisição para listar os dados dos alimentos em uma refeição.
+    /// Representa a resposta da requisição para listar os dados dos alimentos em uma refeição.
     /// </summary>
     public class MealFoodResponse
     {

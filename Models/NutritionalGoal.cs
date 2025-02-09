@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using MyFood.Models.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyFood.Models
 {
     /// <summary>
-    /// Meta nutricional
+    /// Representa a meta nutricional de calorias e macronutrientes do usuário.
     /// </summary>
     [Table("nutritional_goal")]
     public class NutritionalGoal
@@ -21,7 +22,7 @@ namespace MyFood.Models
         public int UserId { get; set; }
 
         /// <summary>
-        /// Meta de calorias diárias.
+        /// Meta de calorias diárias (kcal).
         /// </summary>
         [Column("daily_calories")]
         public int DailyCalories { get; set; }
@@ -29,8 +30,8 @@ namespace MyFood.Models
         /// <summary>
         /// Percentual de calorias vindas da proteína.
         /// </summary>
-        [Column("protein_percentage")]
-        public int ProteinPercentage { get; set; }
+        [Column("proteins_percentage")]
+        public int ProteinsPercentage { get; set; }
 
         /// <summary>
         /// Percentual de calorias vindas dos carboidratos.
@@ -39,9 +40,34 @@ namespace MyFood.Models
         public int CarbsPercentage { get; set; }
 
         /// <summary>
-        /// Percentual de calorias vindas das gorduras
+        /// Percentual de calorias vindas das gorduras.
         /// </summary>
-        [Column("fat_percentage")]
-        public int FatPercentage { get; set; }
+        [Column("fats_percentage")]
+        public int FatsPercentage { get; set; }
+
+        /// <summary>
+        /// O objetivo de peso do usuário, como manter, ganhar ou perder peso.
+        /// </summary>
+        [Column("weight_goal")]
+        public GoalEnum WeightGoal { get; set; }
+
+        /// <summary>
+        /// Contrutor da entidade NutritionalGoal para o cadastro de novas metas nutricionais.
+        /// </summary>
+        /// <param name="userId">Identificador do usuário associado a essa meta pertence.</param>
+        /// <param name="dailyCalories">Meta de calorias diárias (kcal).</param>
+        /// <param name="proteinsPercentage">Percentual de calorias vindas da proteína.</param>
+        /// <param name="carbsPercentage">Percentual de calorias vindas dos carboidratos.</param>
+        /// <param name="fatsPercentage">Percentual de calorias vindas das gorduras.</param>
+        /// <param name="weightGoal">O objetivo de peso do usuário.</param>
+        public NutritionalGoal(int userId, int dailyCalories, int proteinsPercentage, int carbsPercentage, int fatsPercentage, GoalEnum weightGoal)
+        {
+            UserId = userId;
+            DailyCalories = dailyCalories;
+            ProteinsPercentage = proteinsPercentage;
+            CarbsPercentage = carbsPercentage;
+            FatsPercentage = fatsPercentage;
+            WeightGoal = weightGoal;
+        }
     }
 }

@@ -11,7 +11,7 @@ using MyFood.Services.Interfaces;
 namespace MyFood.Services
 {
     /// <summary>
-    /// Implementação do serviço de usuários, responsável por autenticação e registro.
+    /// Implementação do serviço de usuários, responsável por autenticação, registro, busca e exclusão.
     /// Esta classe usa um repositório de usuários e um serviço JWT para login e criação de contas.
     /// </summary>
     public class UserService : IUserService
@@ -46,7 +46,16 @@ namespace MyFood.Services
                     throw new Exception("Email já cadastrado.");
                 }
 
-                var user = new User(request.Name, request.Email, request.Gender, request.Height, request.Weight, request.ActivityLevel, HashPassword(request.Password));
+                var user = new User(
+                    request.Name, 
+                    request.Email, 
+                    request.Gender, 
+                    request.Age, 
+                    request.Height, 
+                    request.Weight, 
+                    request.ActivityLevel, 
+                    HashPassword(request.Password)
+                );
 
                 await _userRepository.CreateAsync(user);
 

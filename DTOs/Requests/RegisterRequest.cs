@@ -29,6 +29,11 @@ namespace MyFood.DTOs.Requests
         public GenderEnum Gender { get; set; }
 
         /// <summary>
+        /// Idade do usuário para cálculos de Taxa Metabólica Basal.
+        /// </summary>
+        public int Age { get; set; }
+
+        /// <summary>
         /// Altura do usuário para cálculos de Taxa Metabólica Basal.
         /// </summary>
         public int Height { get; set; }

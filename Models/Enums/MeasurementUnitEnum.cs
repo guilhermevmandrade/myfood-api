@@ -2,9 +2,9 @@
 {
     public enum MeasurementUnitEnum
     {
-        Grams,
-        Milliliters,
-        Tablespoons,
-        Teaspoons
+        Grams,          // Gramas
+        Milliliters,    // Milimetros
+        Tablespoons,    // Colher de sopa
+        Teaspoons       // Colher de chá
     }
 }

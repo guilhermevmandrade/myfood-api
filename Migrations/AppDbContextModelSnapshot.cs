@@ -143,17 +143,21 @@ namespace MyFood.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("daily_calories");
 
-                    b.Property<int>("FatPercentage")
+                    b.Property<int>("FatsPercentage")
                         .HasColumnType("integer")
-                        .HasColumnName("fat_percentage");
+                        .HasColumnName("fats_percentage");
 
-                    b.Property<int>("ProteinPercentage")
+                    b.Property<int>("ProteinsPercentage")
                         .HasColumnType("integer")
-                        .HasColumnName("protein_percentage");
+                        .HasColumnName("proteins_percentage");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
                         .HasColumnName("user_id");
+
+                    b.Property<int>("WeightGoal")
+                        .HasColumnType("integer")
+                        .HasColumnName("weight_goal");
 
                     b.HasKey("Id");
 
@@ -175,6 +179,10 @@ namespace MyFood.Migrations
                     b.Property<int>("ActivityLevel")
                         .HasColumnType("integer")
                         .HasColumnName("activity_level");
+
+                    b.Property<int>("Age")
+                        .HasColumnType("integer")
+                        .HasColumnName("age");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")

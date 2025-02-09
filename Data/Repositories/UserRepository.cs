@@ -30,9 +30,9 @@ namespace MyFood.Data.Repositories
         public async Task CreateAsync(User user)
         {
             string query = @"INSERT INTO ""user"" 
-                                (name, email, password_hash, created_at, gender, height, weight, activity_level) 
+                                (name, email, password_hash, created_at, gender, age, height, weight, activity_level) 
                              VALUES 
-                                (@Name, @Email, @PasswordHash, @CreatedAt, @Gender, @Height, @Weight, @ActivityLevelEnum)";
+                                (@Name, @Email, @PasswordHash, @CreatedAt, @Gender, @Age, @Height, @Weight, @ActivityLevelEnum)";
 
             await _dbSession.Connection.ExecuteAsync(query, user, _dbSession.Transaction);
         }
@@ -48,6 +48,7 @@ namespace MyFood.Data.Repositories
                                 name AS Name,
                                 email AS Email,
                                 gender AS Gender,
+                                age AS Age,
                                 height AS Height,
                                 weight AS Weight,
                                 activity_level AS ActivityLevelEnum
@@ -86,12 +87,22 @@ namespace MyFood.Data.Repositories
             string query = @"UPDATE ""user"" SET 
                                  name = @Name,
                                  gender = @Gender,
+                                 age = @Age,
                                  height = @Height,
                                  weight = @Weight,
                                  activity_level = @ActivityLevelEnum
                              WHERE id = @Id";
 
-            await _dbSession.Connection.ExecuteAsync(query, new { user.Name, user.Gender, user.Height, user.Weight, user.ActivityLevel, Id = id }, _dbSession.Transaction);
+            await _dbSession.Connection.ExecuteAsync(query, new 
+            { 
+                user.Name, 
+                user.Gender,
+                user.Age, 
+                user.Height, 
+                user.Weight, 
+                user.ActivityLevel, 
+                Id = id 
+            }, _dbSession.Transaction);
         }
 
         /// <summary>

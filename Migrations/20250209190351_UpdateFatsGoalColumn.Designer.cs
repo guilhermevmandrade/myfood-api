@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MyFood.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250209170549_UpdateUserAddGenderColumn")]
-    partial class UpdateUserAddGenderColumn
+    [Migration("20250209190351_UpdateFatsGoalColumn")]
+    partial class UpdateFatsGoalColumn
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -148,11 +148,11 @@ namespace MyFood.Migrations
 
                     b.Property<int>("FatsPercentage")
                         .HasColumnType("integer")
-                        .HasColumnName("fat_percentage");
+                        .HasColumnName("fats_percentage");
 
                     b.Property<int>("ProteinsPercentage")
                         .HasColumnType("integer")
-                        .HasColumnName("protein_percentage");
+                        .HasColumnName("proteins_percentage");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer")

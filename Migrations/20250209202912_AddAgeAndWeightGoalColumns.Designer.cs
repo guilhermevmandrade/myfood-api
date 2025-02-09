@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MyFood.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250209170549_UpdateUserAddGenderColumn")]
-    partial class UpdateUserAddGenderColumn
+    [Migration("20250209202912_AddAgeAndWeightGoalColumns")]
+    partial class AddAgeAndWeightGoalColumns
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -148,15 +148,19 @@ namespace MyFood.Migrations
 
                     b.Property<int>("FatsPercentage")
                         .HasColumnType("integer")
-                        .HasColumnName("fat_percentage");
+                        .HasColumnName("fats_percentage");
 
                     b.Property<int>("ProteinsPercentage")
                         .HasColumnType("integer")
-                        .HasColumnName("protein_percentage");
+                        .HasColumnName("proteins_percentage");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
                         .HasColumnName("user_id");
+
+                    b.Property<int>("WeightGoal")
+                        .HasColumnType("integer")
+                        .HasColumnName("weight_goal");
 
                     b.HasKey("Id");
 
@@ -178,6 +182,10 @@ namespace MyFood.Migrations
                     b.Property<int>("ActivityLevel")
                         .HasColumnType("integer")
                         .HasColumnName("activity_level");
+
+                    b.Property<int>("Age")
+                        .HasColumnType("integer")
+                        .HasColumnName("age");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")

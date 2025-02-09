@@ -2,8 +2,8 @@
 {
     public enum GoalEnum
     {
-        LoseWeight, 
-        MaintainWeight, 
-        GainWeight
+        LoseWeight,     // Perder peso
+        MaintainWeight, // Manter peso
+        GainWeight      // Ganhar peso
     }
 }

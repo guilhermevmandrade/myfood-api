@@ -182,7 +182,7 @@ namespace MyFood.Data.Repositories
         /// </summary>
         /// <param name="mealId">Identificador da refeição.</param>
         /// <param name="userId">Identificador do usuário.</param>
-        /// <returns>Valor booleano indicando se a refeição existe para o usuário (true) ou não (false).</returns>
+        /// <returns>Valor booleano indicando se a refeição existe (true) ou não (false).</returns>
         public async Task<bool> MealExistsAsync(int mealId, int userId)
         {
             string query = @"SELECT 1 FROM meal 
