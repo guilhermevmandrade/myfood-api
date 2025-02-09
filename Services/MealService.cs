@@ -4,7 +4,6 @@ using MyFood.Models;
 using MyFood.Services.Interfaces;
 using MyFood.DTOs.Responses;
 using MyFood.DTOs.Requests;
-using MyFood.Data.Repositories;
 
 namespace MyFood.Services
 {
@@ -123,6 +122,68 @@ namespace MyFood.Services
                 }
 
                 await _mealRepository.DeleteAsync(mealId);
+
+                _unitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                _unitOfWork.Rollback();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Adiciona um alimento a uma refeição do usuário no banco de dados.
+        /// </summary>
+        /// <param name="request">Dados do alimento, como quantidade e unidade de medida, na refeição.</param>
+        /// <param name="mealId">Identificador da refeição.</param>
+        /// <param name="foodId">Identificador do alimento.</param>
+        /// <param name="userId">Identificador do usuário.</param>
+        /// <returns></returns>
+        public async Task AddFoodToMealAsync(MealFoodRequest request, int mealId, int foodId, int userId)
+        {
+            try
+            {
+                _unitOfWork.BeginTransaction();
+
+                bool mealExists = await _mealRepository.MealExistsAsync(mealId, userId);
+                if (!mealExists)
+                {
+                    throw new Exception("Refeição não encontrada.");
+                }
+
+                await _mealRepository.AddFoodToMealAsync(mealId, foodId, request.Quantity, request.Unit);
+
+                _unitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                _unitOfWork.Rollback();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Remove o alimento de uma refeição no banco de dados.
+        /// </summary>
+        /// <param name="mealId">Identificador da refeição.</param>
+        /// <param name="foodId">Identificador do alimento.</param>
+        /// <param name="userId">Identificador do usuário.</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task RemoveFoodFromMealAsync(int mealId, int foodId, int userId)
+        {
+            try
+            {
+                _unitOfWork.BeginTransaction();
+
+                bool mealExists = await _mealRepository.MealExistsAsync(mealId, userId);
+                if (!mealExists)
+                {
+                    throw new Exception("Refeição não encontrada.");
+                }
+
+                await _mealRepository.RemoveFoodFromMealAsync(mealId, foodId);
 
                 _unitOfWork.Commit();
             }

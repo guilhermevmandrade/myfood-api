@@ -3,9 +3,7 @@ using MyFood.Models;
 using MyFood.Data.Repositories.Interfaces;
 using MyFood.DTOs.Responses;
 using MyFood.DTOs.Requests;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using MyFood.Services;
+using MyFood.Models.Enums;
 
 namespace MyFood.Data.Repositories
 {
@@ -121,14 +119,18 @@ namespace MyFood.Data.Repositories
                             LEFT JOIN food f ON mf.food_id = f.id
                             WHERE m.user_id = @UserId AND m.id = @Id";
 
-            var result = await _dbSession.Connection.QueryAsync<MealResponse, MealFoodResponse, FoodResponse, MealResponse>(
-                query, (mealEntry, mealFood, food) =>
-                {
+            var mealDictionary = new Dictionary<int, MealResponse>();
 
-                    // Uma nova lista de MealFoodResponse é inicializada para armazenar os alimentos associados a essa refeição.
-                    if (mealEntry.MealFoods == null)
+            var result = await _dbSession.Connection.QueryAsync<MealResponse, MealFoodResponse, FoodResponse, MealResponse>(
+                query, (meal, mealFood, food) =>
+                {
+                    // Verifica se a refeição já foi registrada no mealDictionary.Se já estiver, a refeição (mealEntry) será usada.
+                    // Caso contrário, ela é criada, e uma nova lista de MealFoodResponse é inicializada para armazenar os alimentos associados a essa refeição.
+                    if (!mealDictionary.TryGetValue(meal.MealId, out var mealEntry))
                     {
+                        mealEntry = meal;
                         mealEntry.MealFoods = new List<MealFoodResponse>();
+                        mealDictionary[meal.MealId] = mealEntry;
                     }
 
                     // Adiciona cada alimento associado à refeição,
@@ -137,7 +139,6 @@ namespace MyFood.Data.Repositories
                     {
                         mealFood.Food = food;
                     }
-
                     mealEntry.MealFoods.Add(mealFood);
                     return mealEntry;
                 },
@@ -193,6 +194,41 @@ namespace MyFood.Data.Repositories
             var result = await _dbSession.Connection.ExecuteScalarAsync<int?>(query, new { MealId = mealId, UserId = userId });
 
             return result.HasValue;
+        }
+
+        /// <summary>
+        /// Adiciona um alimento a uma refeição do usuário no banco de dados.
+        /// </summary>
+        /// <param name="mealId">Identificador da refeição.</param>
+        /// <param name="foodId">Identificador do alimento.</param>
+        /// <param name="quantity">Quantidade do alimento na refeição.</param>
+        /// <param name="unit">Unidade de medida da quantidade de alimento.</param>
+        /// <returns></returns>
+        public async Task AddFoodToMealAsync(int mealId, int foodId, decimal quantity, MeasurementUnit unit)
+        {
+            string query = @"INSERT INTO meal_food
+                                (meal_id, food_id, quantity, unit) 
+                             VALUES
+                                (@MealId, @FoodId, @Quantity, @Unit)";
+
+            await _dbSession.Connection.ExecuteAsync(query, new { MealId = mealId, FoodId = foodId, Quantity = quantity, Unit = unit}, _dbSession.Transaction);
+        }
+
+        /// <summary>
+        /// Remove um alimento de uma refeição no banco de dados.
+        /// </summary>
+        /// <param name="mealId">Identificador da refeição.</param>
+        /// <param name="foodId">Identificador do alimento.</param>
+        /// <returns></returns>
+        public async Task RemoveFoodFromMealAsync(int mealId, int foodId)
+        {
+            string query = @"DELETE FROM meal_food 
+                            WHERE 
+                                meal_id = @MealId 
+                            AND 
+                                food_id = @FoodId";
+
+            var rowsAffected = await _dbSession.Connection.ExecuteAsync(query, new { MealId = mealId, FoodId = foodId }, _dbSession.Transaction);
         }
     }
 }
