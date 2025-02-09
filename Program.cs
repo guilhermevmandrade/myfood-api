@@ -39,11 +39,13 @@ builder.Services.AddScoped<JwtService>();
 builder.Services.AddTransient<IFoodRepository, FoodRepository>();
 builder.Services.AddTransient<IMealRepository, MealRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<INutritionalGoalRepository, NutritionalGoalRepository>();
 
 // Registrando serviços
 builder.Services.AddTransient<IFoodService, FoodService>();
 builder.Services.AddTransient<IMealService, MealService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<INutritionalGoalService, NutritionalGoalService>();
 
 // Configurando autenticação JWT
 builder.Services.AddAuthentication("Bearer")
