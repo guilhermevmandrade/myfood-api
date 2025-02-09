@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace MyFood.DTOs.Requests
+﻿namespace MyFood.DTOs.Requests
 {
     /// <summary>
     /// Representa a requisição para registrar e atualizar um alimento.

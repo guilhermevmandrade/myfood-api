@@ -105,8 +105,8 @@ namespace MyFood.Data.Repositories
                             WHERE 
                                 user_id = @UserId";
 
-            await _dbSession.Connection.ExecuteAsync(query, new 
-            { 
+            await _dbSession.Connection.ExecuteAsync(query, new
+            {
                 UserId = userId,
                 ProteinsPercentage = proteinsPercentage,
                 CarbsPercentage = carbsPercentage,

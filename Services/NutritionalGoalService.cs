@@ -3,11 +3,8 @@ using MyFood.Data;
 using MyFood.DTOs.Requests;
 using MyFood.DTOs.Responses;
 using MyFood.Services.Interfaces;
-using MyFood.Data.Repositories;
 using MyFood.Models;
 using MyFood.Models.Enums;
-using System.Reflection;
-using System.Runtime.ConstrainedExecution;
 
 namespace MyFood.Services
 {
@@ -41,6 +38,12 @@ namespace MyFood.Services
             try
             {
                 _unitOfWork.BeginTransaction();
+
+                bool goalExists = await _nutritionalGoalRepository.NutritionalGoalExistsAsync(userId);
+                if (goalExists)
+                {
+                    throw new Exception("Meta nutricional já registrada.");
+                }
 
                 var nutritionalGoal = new NutritionalGoal
                     (userId, request.DailyCalories, request.ProteinsPercentage, request.CarbsPercentage, request.FatsPercentage, request.WeightGoal);
@@ -152,7 +155,7 @@ namespace MyFood.Services
         /// <param name="userId">Identificador do usuário.</param>
         /// <param name="weightGoal">Objetivo de peso do usuário (perder, manter ou ganhar peso).</param>
         /// <returns></returns>
-        public async Task<DailyCaloriesResponse> SuggestDailyCalories(int userId, GoalEnum weightGoal)
+        public async Task<DailyCaloriesResponse> SuggestDailyCaloriesAsync(int userId, GoalEnum weightGoal)
         {
             var user = await _userRepository.GetByIdAsync(userId);
             if (user == null)

@@ -1,12 +1,12 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-using MyFood.Data;
+﻿using MyFood.Data;
 using MyFood.Data.Repositories.Interfaces;
 using MyFood.DTOs.Requests;
 using MyFood.DTOs.Responses;
 using MyFood.Models;
 using MyFood.Security;
 using MyFood.Services.Interfaces;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MyFood.Services
 {
@@ -47,13 +47,13 @@ namespace MyFood.Services
                 }
 
                 var user = new User(
-                    request.Name, 
-                    request.Email, 
-                    request.Gender, 
-                    request.Age, 
-                    request.Height, 
-                    request.Weight, 
-                    request.ActivityLevel, 
+                    request.Name,
+                    request.Email,
+                    request.Gender,
+                    request.Age,
+                    request.Height,
+                    request.Weight,
+                    request.ActivityLevel,
                     HashPassword(request.Password)
                 );
 
@@ -61,12 +61,12 @@ namespace MyFood.Services
 
                 _unitOfWork.Commit();
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 _unitOfWork.Rollback();
                 throw;
             }
-            
+
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace MyFood.Services
 
                 _unitOfWork.Commit();
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 _unitOfWork.Rollback();
                 throw;

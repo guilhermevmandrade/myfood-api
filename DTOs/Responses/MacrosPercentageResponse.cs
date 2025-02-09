@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace MyFood.DTOs.Responses
+﻿namespace MyFood.DTOs.Responses
 {
     /// <summary>
     /// Representa a resposta da requisição para listar a meta percentual de macronutrientes consumidos diaramente.

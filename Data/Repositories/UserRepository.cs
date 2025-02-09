@@ -1,8 +1,8 @@
 ﻿using Dapper;
-using MyFood.Models;
 using MyFood.Data.Repositories.Interfaces;
-using MyFood.DTOs.Responses;
 using MyFood.DTOs.Requests;
+using MyFood.DTOs.Responses;
+using MyFood.Models;
 
 namespace MyFood.Data.Repositories
 {
@@ -32,7 +32,7 @@ namespace MyFood.Data.Repositories
             string query = @"INSERT INTO ""user"" 
                                 (name, email, password_hash, created_at, gender, age, height, weight, activity_level) 
                              VALUES 
-                                (@Name, @Email, @PasswordHash, @CreatedAt, @Gender, @Age, @Height, @Weight, @ActivityLevelEnum)";
+                                (@Name, @Email, @PasswordHash, @CreatedAt, @Gender, @Age, @Height, @Weight, @ActivityLevel)";
 
             await _dbSession.Connection.ExecuteAsync(query, user, _dbSession.Transaction);
         }
@@ -51,7 +51,7 @@ namespace MyFood.Data.Repositories
                                 age AS Age,
                                 height AS Height,
                                 weight AS Weight,
-                                activity_level AS ActivityLevelEnum
+                                activity_level AS ActivityLevel
                             FROM ""user""
                             WHERE id = @Id";
 
@@ -90,18 +90,18 @@ namespace MyFood.Data.Repositories
                                  age = @Age,
                                  height = @Height,
                                  weight = @Weight,
-                                 activity_level = @ActivityLevelEnum
+                                 activity_level = @ActivityLevel
                              WHERE id = @Id";
 
-            await _dbSession.Connection.ExecuteAsync(query, new 
-            { 
-                user.Name, 
+            await _dbSession.Connection.ExecuteAsync(query, new
+            {
+                user.Name,
                 user.Gender,
-                user.Age, 
-                user.Height, 
-                user.Weight, 
-                user.ActivityLevel, 
-                Id = id 
+                user.Age,
+                user.Height,
+                user.Weight,
+                user.ActivityLevel,
+                Id = id
             }, _dbSession.Transaction);
         }
 

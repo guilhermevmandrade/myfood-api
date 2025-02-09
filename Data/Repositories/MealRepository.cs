@@ -1,8 +1,8 @@
 ﻿using Dapper;
-using MyFood.Models;
 using MyFood.Data.Repositories.Interfaces;
-using MyFood.DTOs.Responses;
 using MyFood.DTOs.Requests;
+using MyFood.DTOs.Responses;
+using MyFood.Models;
 using MyFood.Models.Enums;
 
 namespace MyFood.Data.Repositories
@@ -161,7 +161,7 @@ namespace MyFood.Data.Repositories
                                  description = @Description, 
                                  meal_time = @MealTime
                              WHERE id = @Id";
-            
+
             await _dbSession.Connection.ExecuteAsync(query, new { meal.Description, meal.MealTime, Id = id }, _dbSession.Transaction);
         }
 
@@ -173,7 +173,7 @@ namespace MyFood.Data.Repositories
         public async Task DeleteAsync(int id)
         {
             string query = "DELETE FROM meal WHERE id = @Id";
-            
+
             var rowsAffected = await _dbSession.Connection.ExecuteAsync(query, new { Id = id }, _dbSession.Transaction);
         }
 
@@ -211,7 +211,7 @@ namespace MyFood.Data.Repositories
                              VALUES
                                 (@MealId, @FoodId, @Quantity, @Unit)";
 
-            await _dbSession.Connection.ExecuteAsync(query, new { MealId = mealId, FoodId = foodId, Quantity = quantity, Unit = unit}, _dbSession.Transaction);
+            await _dbSession.Connection.ExecuteAsync(query, new { MealId = mealId, FoodId = foodId, Quantity = quantity, Unit = unit }, _dbSession.Transaction);
         }
 
         /// <summary>

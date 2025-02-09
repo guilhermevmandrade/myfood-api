@@ -9,7 +9,7 @@ using System.Security.Claims;
 namespace MyFood.Controllers
 {
     [ApiController]
-    [Route("api/meal")]
+    [Route("api/meals")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class MealController : ControllerBase
     {
@@ -23,6 +23,7 @@ namespace MyFood.Controllers
             _mealValidator = mealValidator;
             _mealFoodValidator = mealFoodValidator;
         }
+
 
         [HttpGet]
         public async Task<IActionResult> ListUserMeals()
@@ -38,6 +39,7 @@ namespace MyFood.Controllers
             return Ok(foodList);
         }
 
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserMeal(int id)
         {
@@ -51,6 +53,7 @@ namespace MyFood.Controllers
 
             return Ok(food);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> RegisterMeal(MealRequest request)
@@ -72,6 +75,7 @@ namespace MyFood.Controllers
             return Ok("Refeição cadastrada com sucesso!");
         }
 
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMeal(MealRequest request, int id)
         {
@@ -89,8 +93,9 @@ namespace MyFood.Controllers
 
             await _mealService.UpdateMealAsync(request, id, userId);
 
-            return Ok("Refeição ataualizada com sucesso!");
+            return Ok("Refeição atualizada com sucesso!");
         }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMeal(int id)
@@ -105,6 +110,7 @@ namespace MyFood.Controllers
 
             return Ok("Refeição deletada com sucesso!");
         }
+
 
         [HttpPost("{id}/foods/{foodId}")]
         public async Task<IActionResult> AddFoodToMeal(MealFoodRequest request, int id, int foodId)
@@ -125,6 +131,7 @@ namespace MyFood.Controllers
 
             return Ok("Alimento adicionado à refeição com sucesso!");
         }
+
 
         [HttpDelete("{id}/foods/{foodId}")]
         public async Task<IActionResult> RemoveFoodFromMeal(int id, int foodId)

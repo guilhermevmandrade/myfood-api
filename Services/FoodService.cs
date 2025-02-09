@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using MyFood.Data;
+﻿using MyFood.Data;
 using MyFood.Data.Repositories.Interfaces;
 using MyFood.DTOs.Requests;
 using MyFood.DTOs.Responses;
@@ -71,7 +70,7 @@ namespace MyFood.Services
         public async Task<FoodResponse> GetUserFoodAsync(int foodId, int userId)
         {
             var food = await _foodRepository.GetUserFoodByIdAsync(foodId, userId);
-            if (food == null) 
+            if (food == null)
             {
                 throw new Exception("Alimento não encontrado.");
             }

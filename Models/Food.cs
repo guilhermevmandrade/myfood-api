@@ -1,5 +1,4 @@
-﻿using MyFood.DTOs.Requests;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyFood.Models
 {

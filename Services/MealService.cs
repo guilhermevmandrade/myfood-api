@@ -1,9 +1,9 @@
-﻿using MyFood.Data.Repositories.Interfaces;
-using MyFood.Data;
+﻿using MyFood.Data;
+using MyFood.Data.Repositories.Interfaces;
+using MyFood.DTOs.Requests;
+using MyFood.DTOs.Responses;
 using MyFood.Models;
 using MyFood.Services.Interfaces;
-using MyFood.DTOs.Responses;
-using MyFood.DTOs.Requests;
 
 namespace MyFood.Services
 {

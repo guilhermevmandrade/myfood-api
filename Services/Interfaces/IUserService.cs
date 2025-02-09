@@ -1,7 +1,5 @@
-﻿using Azure.Core;
-using MyFood.DTOs.Requests;
+﻿using MyFood.DTOs.Requests;
 using MyFood.DTOs.Responses;
-using MyFood.Models;
 
 namespace MyFood.Services.Interfaces
 {

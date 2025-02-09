@@ -1,8 +1,8 @@
 ﻿using Dapper;
-using MyFood.Models;
 using MyFood.Data.Repositories.Interfaces;
-using MyFood.DTOs.Responses;
 using MyFood.DTOs.Requests;
+using MyFood.DTOs.Responses;
+using MyFood.Models;
 
 namespace MyFood.Data.Repositories
 {

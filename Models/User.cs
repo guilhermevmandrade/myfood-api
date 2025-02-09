@@ -1,5 +1,4 @@
-﻿using MyFood.DTOs.Requests;
-using MyFood.Models.Enums;
+﻿using MyFood.Models.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyFood.Models

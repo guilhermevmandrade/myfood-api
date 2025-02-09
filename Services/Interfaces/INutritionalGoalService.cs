@@ -11,6 +11,6 @@ namespace MyFood.Services.Interfaces
         Task UpdateDailyCaloriesAsync(DailyCaloriesRequest request, int userId);
         Task<MacrosPercentageResponse> GetMacrosAsync(int userId);
         Task UpdateMacrosAsync(MacrosPercentageRequest request, int userId);
-        Task<DailyCaloriesResponse> SuggestDailyCalories(int userId, GoalEnum weightGoal);
+        Task<DailyCaloriesResponse> SuggestDailyCaloriesAsync(int userId, GoalEnum weightGoal);
     }
 }

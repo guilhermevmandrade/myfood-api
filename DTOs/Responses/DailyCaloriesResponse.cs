@@ -1,5 +1,4 @@
 ﻿using MyFood.Models.Enums;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyFood.DTOs.Responses
 {

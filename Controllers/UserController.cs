@@ -1,17 +1,15 @@
-﻿using Azure.Core;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyFood.DTOs.Requests;
-using MyFood.Models;
 using MyFood.Services.Interfaces;
 using System.Security.Claims;
 
 namespace MyFood.Controllers
 {
     [ApiController]
-    [Route("api/user")]
+    [Route("api/users")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UserController : ControllerBase
     {
@@ -26,6 +24,7 @@ namespace MyFood.Controllers
             _deleteUserValidator = deleteUserValidator;
         }
 
+
         [HttpGet("me")]
         public async Task<IActionResult> GetUser()
         {
@@ -39,6 +38,7 @@ namespace MyFood.Controllers
 
             return Ok(user);
         }
+
 
         [HttpPut("me")]
         public async Task<IActionResult> UpdateUser(UpdateUserRequest request)
@@ -59,6 +59,7 @@ namespace MyFood.Controllers
 
             return Ok("Usuário atualizado com sucesso!");
         }
+
 
         [HttpDelete("me")]
         public async Task<IActionResult> DeleteUser(DeleteUserRequest request)
