@@ -1,6 +1,7 @@
 # MyFood API
 
 A API MyFood é uma aplicação desenvolvida em .NET para ajudar os usuários a registrar e acompanhar suas refeições diárias, calorias consumidas e macronutrientes (proteínas, carboidratos e gorduras). A API também oferece funcionalidade para definir metas nutricionais personalizadas, calcular as necessidades diárias de calorias e sugerir metas de macronutrientes.
+
 Esta API foi criada para ser consumida pelo [MyFood UI](https://github.com/guilhermevmandrade/myfood-ui), que é a interface de usuário do sistema. A interação entre o front-end e a API permite que os usuários registrem suas refeições e metas nutricionais, e acompanhem seu progresso.
 
 ## Funcionalidades
